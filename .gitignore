@@ -2,6 +2,7 @@ node_modules
 
 # Food Mini Database
 src/data
+src/stores
 
 # Output
 .output
