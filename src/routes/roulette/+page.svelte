@@ -1,25 +1,38 @@
 <script>
   import { userData } from '../../lib/stores/store.js'; // Import the store
-  import foodDatabase from '../../data/foodDatabase.json'; // Import food data
 
-  // Explicitly define the type of foodSuggestions using JSDoc
-  /**
+  /** 
    * @type {Array<{ id: number, name: string, image: string, moods: string[], weather: string[] }>}
    */
   let foodSuggestions = [];
+  let isLoading = true; // State to track loading
 
-  // Reactively filter the food suggestions based on mood and weather
-  $: {
-    foodSuggestions = foodDatabase.foods.filter(food =>
-      food.moods.includes($userData.mood) && food.weather.includes($userData.weather)
-    );
+  /**
+   * Fetches food data and filters it based on mood and weather
+   * @returns {Promise<void>}
+   */
+  async function fetchFoodData() {
+    try {
+      const response = await fetch('/data/foodDatabase.json');
+      const foodDatabase = await response.json();
+      foodSuggestions = foodDatabase.foods.filter((/** @type {{ id: number, name: string, image: string, moods: string[], weather: string[] }} */ food) =>
+        food.moods.includes($userData.mood) && food.weather.includes($userData.weather)
+      );
+    } catch (error) {
+      console.error("Error fetching food data:", error);
+    } finally {
+      isLoading = false; // Set loading state to false once data is fetched
+    }
   }
+
+  // Fetch food data when the component mounts
+  fetchFoodData();
 </script>
 
 <div class="p-6 text-center">
   <h1 class="text-2xl font-bold mb-4">Your Selections</h1>
 
-  {#if $userData.mood} <!-- Use $userData to automatically subscribe to the store -->
+  {#if $userData.mood}
     <p class="mt-4 text-lg">
       You are in <strong>{$userData.country}</strong>, the weather is <strong>{$userData.weather}</strong>,
       and you are feeling <strong class="text-blue-500">{$userData.mood}</strong>.
@@ -28,7 +41,9 @@
 
   <h2 class="text-xl font-semibold mt-6 mb-4">Food Suggestions</h2>
 
-  {#if foodSuggestions.length > 0}
+  {#if isLoading}
+    <p class="mt-4 text-lg text-gray-500">Loading food suggestions...</p>
+  {:else if foodSuggestions.length > 0}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each foodSuggestions as food}
         <div class="border rounded-lg p-4 text-center">
