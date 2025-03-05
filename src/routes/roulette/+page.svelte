@@ -1,6 +1,6 @@
 <!-- src/routes/roulette/+page.svelte -->
 <script>
-  import { userData } from '../../stores/store'; // Import the store
+  import { userData } from '../../stores/store.js'; // Import the store
 </script>
 
 <div class="p-6 text-center">
