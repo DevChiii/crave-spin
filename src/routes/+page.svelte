@@ -1,7 +1,7 @@
 <!-- src/routes/index.svelte -->
 <script>
   import { goto } from '$app/navigation';
-  import { userData } from '../stores/store'; // Import the store
+  import { userData } from '../lib/stores/store.js'; // Import the store
 
   let moods = ["Happy", "Hungry", "Adventurous", "Lazy", "Sad"];
   let selectedMood = "";
