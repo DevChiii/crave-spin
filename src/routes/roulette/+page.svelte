@@ -9,6 +9,9 @@
   let isLoading = true; // State to track loading
   let spinDegree = 0; // Track the spin degree of the wheel
   let isSpinning = false; // To prevent continuous spinning on button click
+  /**
+	 * @type {{ name: any; id?: number; moods?: string[]; weather?: string[]; } | null}
+	 */
   let selectedFood = null; // Track the food that is chosen by the roulette
   const minimumFoodItems = 9;
 
@@ -20,7 +23,7 @@
     try {
       const response = await fetch('/data/foodDatabase.json');
       const foodDatabase = await response.json();
-      foodSuggestions = foodDatabase.foods.filter((food) =>
+      foodSuggestions = foodDatabase.foods.filter((/** @type {{ moods: string | string[]; weather: string | string[]; }} */ food) =>
         food.moods.includes($userData.mood) && food.weather.includes($userData.weather)
       );
     } catch (error) {
@@ -32,6 +35,7 @@
       if (foodSuggestions.length < minimumFoodItems) {
         const blankSlots = minimumFoodItems - foodSuggestions.length;
         for (let i = 0; i < blankSlots; i++) {
+          // @ts-ignore
           foodSuggestions.push({ name: 'Empty Slot' }); // Use a placeholder for empty slots
         }
       }
@@ -109,59 +113,58 @@
 </div>
 
 <style>
-  .roulette-wheel {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    border: 5px solid #000;
-    position: relative;
-    overflow: hidden;
-    transform-origin: center center;
-    transition: transform 2s ease-out;
-    margin: 0 auto;
-  }
+ .roulette-wheel {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  position: relative;
+  overflow: hidden;
+  transform-origin: center center;
+  transition: transform 2s ease-out;
+  margin: 0 auto;
+}
 
-  .roulette-items {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
+.roulette-items {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
 
-  .roulette-item {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    text-align: center;
-    transform-origin: 0% 0%;
-    font-size: 16px;
-    line-height: 1.2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.roulette-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.2;
+  transform-origin: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .roulette-item span {
-    display: block;
-    transform: rotate(-90deg);
-    font-weight: bold;
-    text-transform: uppercase;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-100%) rotate(90deg); /* Move text to the outer edge */
-  }
+.roulette-item span {
+  display: block;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: absolute;
+  left: 50%;
+  top: 0;  /* Reset vertical position */
+  transform: translateX(-50%) translateY(-100px) rotate(90deg);  /* Center text within the wheel */
+}
 
-  .roulette-wheel .roulette-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.roulette-wheel .roulette-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 </style>
