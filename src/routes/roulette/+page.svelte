@@ -35,7 +35,6 @@
       if (foodSuggestions.length < minimumFoodItems) {
         const blankSlots = minimumFoodItems - foodSuggestions.length;
         for (let i = 0; i < blankSlots; i++) {
-          // @ts-ignore
           foodSuggestions.push({ name: 'Empty Slot' }); // Use a placeholder for empty slots
         }
       }
@@ -82,24 +81,33 @@
   {#if isLoading}
     <p class="mt-4 text-lg text-gray-500">Loading food suggestions...</p>
   {:else if foodSuggestions.length > 0}
-    <!-- Roulette Wheel Component -->
-    <div class="roulette-wheel" style="transform: rotate({spinDegree}deg)">
-      <div class="roulette-items">
-        {#each foodSuggestions as food, i}
-          <div
-            class="roulette-item"
-            style="transform: rotate({(360 / foodSuggestions.length) * i}deg) translateY(-50%)"
-          >
-            <span>{food.name}</span>
-          </div>
-        {/each}
-      </div>
-    </div>
+    <!-- Flex Container to Center Everything -->
+    <div class="roulette-wrapper">
+      <!-- Roulette Wheel Container -->
+      <div class="roulette-container">
+        <!-- Arrow at the top of the wheel, outside the rotation -->
+        <div class="roulette-arrow"></div>
 
-    <!-- Spin Button -->
-    <button on:click={spinWheel} class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
-      Spin the Wheel!
-    </button>
+        <!-- Roulette Wheel Component -->
+        <div class="roulette-wheel" style="transform: rotate({spinDegree}deg)">
+          <div class="roulette-items">
+            {#each foodSuggestions as food, i}
+              <div
+                class="roulette-item"
+                style="transform: rotate({(360 / foodSuggestions.length) * i}deg) translateY(-50%)"
+              >
+                <span>{food.name}</span>
+              </div>
+            {/each}
+          </div>
+        </div>
+      </div>
+
+      <!-- Spin Button -->
+      <button on:click={spinWheel} class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
+        Spin the Wheel!
+      </button>
+    </div>
 
     {#if selectedFood}
       <p class="mt-4 text-lg font-bold">
@@ -113,58 +121,84 @@
 </div>
 
 <style>
- .roulette-wheel {
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  border: 2px solid #000;
-  position: relative;
-  overflow: hidden;
-  transform-origin: center center;
-  transition: transform 2s ease-out;
-  margin: 0 auto;
-}
+  /* Wrapper to Center All Elements */
+  .roulette-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Add space between the wheel and button */
+    text-align: center;
+  }
 
-.roulette-items {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
+  .roulette-container {
+    position: relative;
+    display: inline-block;
+  }
 
-.roulette-item {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  text-align: center;
-  font-size: 16px;
-  line-height: 1.2;
-  transform-origin: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .roulette-arrow {
+    position: absolute;
+    top: -20px; /* Adjust position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid black;
+  }
 
-.roulette-item span {
-  display: block;
-  font-weight: bold;
-  text-transform: uppercase;
-  position: absolute;
-  left: 50%;
-  top: 0;  /* Reset vertical position */
-  transform: translateX(-50%) translateY(-100px) rotate(90deg);  /* Center text within the wheel */
-}
+  .roulette-wheel {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 2px solid #000;
+    position: relative;
+    overflow: hidden;
+    transform-origin: center center;
+    transition: transform 2s ease-out;
+    margin: 0 auto;
+  }
 
-.roulette-wheel .roulette-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .roulette-items {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
 
+  .roulette-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.2;
+    transform-origin: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .roulette-item span {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    left: 50%;
+    top: 0;  /* Reset vertical position */
+    transform: translateX(-50%) translateY(-100px) rotate(90deg);  /* Center text within the wheel */
+  }
+
+  .roulette-wheel .roulette-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>
