@@ -1,11 +1,16 @@
 <script>
   import { userData } from '../../lib/stores/store.js'; // Import the store
+  import { onMount } from 'svelte';
 
   /** 
-   * @type {Array<{ id: number, name: string, image: string, moods: string[], weather: string[] }>}
+   * @type {Array<{ id: number, name: string, moods: string[], weather: string[] }> }
    */
   let foodSuggestions = [];
   let isLoading = true; // State to track loading
+  let spinDegree = 0; // Track the spin degree of the wheel
+  let isSpinning = false; // To prevent continuous spinning on button click
+  let selectedFood = null; // Track the food that is chosen by the roulette
+  const minimumFoodItems = 9;
 
   /**
    * Fetches food data and filters it based on mood and weather
@@ -15,18 +20,47 @@
     try {
       const response = await fetch('/data/foodDatabase.json');
       const foodDatabase = await response.json();
-      foodSuggestions = foodDatabase.foods.filter((/** @type {{ id: number, name: string, image: string, moods: string[], weather: string[] }} */ food) =>
+      foodSuggestions = foodDatabase.foods.filter((food) =>
         food.moods.includes($userData.mood) && food.weather.includes($userData.weather)
       );
     } catch (error) {
       console.error("Error fetching food data:", error);
     } finally {
       isLoading = false; // Set loading state to false once data is fetched
+
+      // Fill the array with blank food entries if there are fewer than 9 suggestions
+      if (foodSuggestions.length < minimumFoodItems) {
+        const blankSlots = minimumFoodItems - foodSuggestions.length;
+        for (let i = 0; i < blankSlots; i++) {
+          foodSuggestions.push({ name: 'Empty Slot' }); // Use a placeholder for empty slots
+        }
+      }
     }
   }
 
+  // Function to spin the roulette wheel
+  function spinWheel() {
+    if (isSpinning) return; // Prevent spinning if already in progress
+    isSpinning = true;
+
+    // Add random rotation to simulate the spin
+    const rotation = Math.floor(Math.random() * 1000) + 1000;
+    spinDegree += rotation;
+
+    // Calculate the "winning" food based on the final position of the wheel
+    const winningIndex = Math.floor((spinDegree % 360) / (360 / foodSuggestions.length));
+    selectedFood = foodSuggestions[winningIndex];
+
+    // Reset spinning after animation duration
+    setTimeout(() => {
+      isSpinning = false;
+    }, 2000); // 2s duration for the animation
+  }
+
   // Fetch food data when the component mounts
-  fetchFoodData();
+  onMount(() => {
+    fetchFoodData();
+  });
 </script>
 
 <div class="p-6 text-center">
@@ -44,15 +78,90 @@
   {#if isLoading}
     <p class="mt-4 text-lg text-gray-500">Loading food suggestions...</p>
   {:else if foodSuggestions.length > 0}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {#each foodSuggestions as food}
-        <div class="border rounded-lg p-4 text-center">
-          <img src={food.image} alt={food.name} class="w-full h-40 object-cover rounded-md mb-4" />
-          <h3 class="text-lg font-semibold">{food.name}</h3>
-        </div>
-      {/each}
+    <!-- Roulette Wheel Component -->
+    <div class="roulette-wheel" style="transform: rotate({spinDegree}deg)">
+      <div class="roulette-items">
+        {#each foodSuggestions as food, i}
+          <div
+            class="roulette-item"
+            style="transform: rotate({(360 / foodSuggestions.length) * i}deg) translateY(-50%)"
+          >
+            <span>{food.name}</span>
+          </div>
+        {/each}
+      </div>
     </div>
+
+    <!-- Spin Button -->
+    <button on:click={spinWheel} class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
+      Spin the Wheel!
+    </button>
+
+    {#if selectedFood}
+      <p class="mt-4 text-lg font-bold">
+        The chosen food is: <span class="text-blue-500">{selectedFood.name}</span>
+      </p>
+    {/if}
+
   {:else}
     <p class="mt-4 text-lg text-red-500">No food suggestions found for your mood and weather.</p>
   {/if}
 </div>
+
+<style>
+  .roulette-wheel {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 5px solid #000;
+    position: relative;
+    overflow: hidden;
+    transform-origin: center center;
+    transition: transform 2s ease-out;
+    margin: 0 auto;
+  }
+
+  .roulette-items {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .roulette-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    text-align: center;
+    transform-origin: 0% 0%;
+    font-size: 16px;
+    line-height: 1.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .roulette-item span {
+    display: block;
+    transform: rotate(-90deg);
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-100%) rotate(90deg); /* Move text to the outer edge */
+  }
+
+  .roulette-wheel .roulette-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
