@@ -137,16 +137,17 @@
   }
 
   .roulette-arrow {
-    position: absolute;
-    top: -20px; /* Adjust position as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 20px solid black;
-  }
+  position: absolute;
+  /* top: 0px; Adjust position as needed */
+  left: 50%;
+  transform: translateX(-50%) rotate(360deg); /* Rotate the arrow 180 degrees */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid black; /* Change from border-bottom to border-top */
+}
+
 
   .roulette-wheel {
     width: 300px;
