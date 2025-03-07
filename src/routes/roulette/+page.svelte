@@ -188,14 +188,18 @@
   }
 
   .roulette-item span {
-    display: block;
-    font-weight: bold;
-    text-transform: uppercase;
-    position: absolute;
-    left: 50%;
-    top: 0;  /* Reset vertical position */
-    transform: translateX(-50%) translateY(-100px) rotate(90deg);  /* Center text within the wheel */
-  }
+  display: block;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: absolute;
+  left: 50%;
+  top: 0;  /* Reset vertical position */
+  transform: translateX(-50%) translateY(-100px) rotate(90deg);  /* Center text within the wheel */
+  font-size: 12px; /* Smaller font size */
+  max-width: 80px; /* Limit width to prevent overflow */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
 
   .roulette-wheel .roulette-item {
     display: flex;
