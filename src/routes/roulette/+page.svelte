@@ -10,8 +10,8 @@
   let spinDegree = 0; // Track the spin degree of the wheel
   let isSpinning = false; // To prevent continuous spinning on button click
   /**
-	 * @type {{ name: any; id?: number; moods?: string[]; weather?: string[]; } | null}
-	 */
+   * @type {{ name: any; id?: number; moods?: string[]; weather?: string[]; } | null}
+   */
   let selectedFood = null; // Track the food that is chosen by the roulette
   const minimumFoodItems = 9;
 
@@ -106,6 +106,13 @@
             {/each}
           </div>
         </div>
+
+        <!-- Display selected food in the center of the wheel (fixed) -->
+        {#if selectedFood}
+          <div class="selected-food">
+            <span>{selectedFood.name}</span>
+          </div>
+        {/if}
       </div>
 
       <!-- Spin Button -->
@@ -113,12 +120,6 @@
         Spin the Wheel!
       </button>
     </div>
-
-    {#if selectedFood}
-      <p class="mt-4 text-lg font-bold">
-        The chosen food is: <span class="text-blue-500">{selectedFood.name}</span>
-      </p>
-    {/if}
 
   {:else}
     <p class="mt-4 text-lg text-red-500">No food suggestions found for your mood and weather.</p>
@@ -132,8 +133,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px; /* Add space between the wheel and button */
+    gap: 20px;
     text-align: center;
+    position: relative;
   }
 
   .roulette-container {
@@ -196,16 +198,27 @@
     text-transform: uppercase;
     position: absolute;
     left: 50%;
-    top: 0;  /* Reset vertical position */
+    top: 0;
     transform: translateX(-50%) translateY(-100px) rotate(90deg);  /* Center text within the wheel */
     font-size: 12px; /* Smaller font size */
     max-width: 80px; /* Limit width to prevent overflow */
     white-space: nowrap; /* Prevent text wrapping */
   }
 
-  .roulette-wheel .roulette-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .selected-food {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Keep center fixed */
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    z-index: 10; /* Ensure the result appears on top of the wheel */
+  }
+
+  .selected-food span {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
   }
 </style>
