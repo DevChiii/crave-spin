@@ -35,6 +35,7 @@
       if (foodSuggestions.length < minimumFoodItems) {
         const blankSlots = minimumFoodItems - foodSuggestions.length;
         for (let i = 0; i < blankSlots; i++) {
+          // @ts-ignore
           foodSuggestions.push({ name: 'Empty Slot' }); // Use a placeholder for empty slots
         }
       }
@@ -50,15 +51,10 @@
     const rotation = Math.floor(Math.random() * 1000) + 1000;
     spinDegree += rotation;
 
-    // Delay the selection process for the winning item until the spin is complete
+    // After the spin completes, randomly select a winner
     setTimeout(() => {
-      // Calculate the "winning" food based on the final position of the wheel
-      const anglePerItem = 360 / foodSuggestions.length;
-      const normalizedDegree = spinDegree % 360;
-      const winningIndex = Math.floor((normalizedDegree + anglePerItem / 2) / anglePerItem); // Correct to ensure it's centered
-
-      // Ensure the winning index wraps around correctly if it exceeds the array length
-      selectedFood = foodSuggestions[winningIndex % foodSuggestions.length];
+      const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
+      selectedFood = foodSuggestions[randomIndex];
 
       // Reset spinning after animation duration
       isSpinning = false;
@@ -90,9 +86,6 @@
     <div class="roulette-wrapper">
       <!-- Roulette Wheel Container -->
       <div class="roulette-container">
-        <!-- Arrow at the top of the wheel, outside the rotation -->
-        <div class="roulette-arrow"></div>
-
         <!-- Roulette Wheel Component -->
         <div class="roulette-wheel" style="transform: rotate({spinDegree}deg)">
           <div class="roulette-items">
@@ -141,17 +134,6 @@
   .roulette-container {
     position: relative;
     display: inline-block;
-  }
-
-  .roulette-arrow {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%) rotate(360deg); /* Rotate the arrow 180 degrees */
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 20px solid black; /* Change from border-bottom to border-top */
   }
 
   .roulette-wheel {
