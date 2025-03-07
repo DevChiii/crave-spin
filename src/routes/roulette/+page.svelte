@@ -50,12 +50,17 @@
     const rotation = Math.floor(Math.random() * 1000) + 1000;
     spinDegree += rotation;
 
-    // Calculate the "winning" food based on the final position of the wheel
-    const winningIndex = Math.floor((spinDegree % 360) / (360 / foodSuggestions.length));
-    selectedFood = foodSuggestions[winningIndex];
-
-    // Reset spinning after animation duration
+    // Delay the selection process for the winning item until the spin is complete
     setTimeout(() => {
+      // Calculate the "winning" food based on the final position of the wheel
+      const anglePerItem = 360 / foodSuggestions.length;
+      const normalizedDegree = spinDegree % 360;
+      const winningIndex = Math.floor((normalizedDegree + anglePerItem / 2) / anglePerItem); // Correct to ensure it's centered
+
+      // Ensure the winning index wraps around correctly if it exceeds the array length
+      selectedFood = foodSuggestions[winningIndex % foodSuggestions.length];
+
+      // Reset spinning after animation duration
       isSpinning = false;
     }, 2000); // 2s duration for the animation
   }
@@ -137,17 +142,15 @@
   }
 
   .roulette-arrow {
-  position: absolute;
-  /* top: 0px; Adjust position as needed */
-  left: 50%;
-  transform: translateX(-50%) rotate(360deg); /* Rotate the arrow 180 degrees */
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 20px solid black; /* Change from border-bottom to border-top */
-}
-
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) rotate(360deg); /* Rotate the arrow 180 degrees */
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 20px solid black; /* Change from border-bottom to border-top */
+  }
 
   .roulette-wheel {
     width: 300px;
@@ -188,18 +191,17 @@
   }
 
   .roulette-item span {
-  display: block;
-  font-weight: bold;
-  text-transform: uppercase;
-  position: absolute;
-  left: 50%;
-  top: 0;  /* Reset vertical position */
-  transform: translateX(-50%) translateY(-100px) rotate(90deg);  /* Center text within the wheel */
-  font-size: 12px; /* Smaller font size */
-  max-width: 80px; /* Limit width to prevent overflow */
-  white-space: nowrap; /* Prevent text wrapping */
-}
-
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    left: 50%;
+    top: 0;  /* Reset vertical position */
+    transform: translateX(-50%) translateY(-100px) rotate(90deg);  /* Center text within the wheel */
+    font-size: 12px; /* Smaller font size */
+    max-width: 80px; /* Limit width to prevent overflow */
+    white-space: nowrap; /* Prevent text wrapping */
+  }
 
   .roulette-wheel .roulette-item {
     display: flex;
