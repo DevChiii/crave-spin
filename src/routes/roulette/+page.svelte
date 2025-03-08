@@ -2,10 +2,18 @@
   import { userData } from '../../lib/stores/store.js'; // Import the store
   import { onMount } from 'svelte';
 
+  // @ts-ignore
+  /**
+	 * @type {any[]}
+	 */
   let foodSuggestions = [];
   let isLoading = true; 
   let spinDegree = 0;
   let isSpinning = false; 
+  // @ts-ignore
+  /**
+	 * @type {{ name: any; } | null}
+	 */
   let selectedFood = null;
   const minimumFoodItems = 9;
 
@@ -13,6 +21,7 @@
     try {
       const response = await fetch('/data/foodDatabase.json');
       const foodDatabase = await response.json();
+      // @ts-ignore
       foodSuggestions = foodDatabase.foods.filter((food) =>
         food.moods.includes($userData.mood) && food.weather.includes($userData.weather)
       );
@@ -34,27 +43,28 @@
   fetch('/data/foodDatabase.json')
     .then((response) => response.json())
     .then((foodDatabase) => {
-      // Start by ensuring we have enough items
+      // Shuffle the entire foodDatabase
       let shuffledFoodSuggestions = foodDatabase.foods.sort(() => Math.random() - 0.5);
-      
-      // If there are fewer than 9 items, add placeholder items
-      if (shuffledFoodSuggestions.length < minimumFoodItems) {
-        const blankSlots = minimumFoodItems - shuffledFoodSuggestions.length;
-        for (let i = 0; i < blankSlots; i++) {
-          shuffledFoodSuggestions.push({ name: 'Empty Slot' });
-        }
+
+      // Add placeholders if there are fewer than 9 items
+      while (shuffledFoodSuggestions.length < minimumFoodItems) {
+        shuffledFoodSuggestions.push({ name: 'Empty Slot' });
       }
 
-      // Slice to ensure only the top 9 suggestions
+      // Slice the array to ensure exactly 9 items
       shuffledFoodSuggestions = shuffledFoodSuggestions.slice(0, minimumFoodItems);
 
-      // Set a new reference to trigger reactivity in Svelte
+      // Set the new random suggestions
       foodSuggestions = [...shuffledFoodSuggestions];
     })
     .catch((error) => {
       console.error("Error fetching random food data:", error);
     });
 }
+
+
+
+
 
 
   // Function to spin the roulette wheel
@@ -66,6 +76,7 @@
 
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
+      // @ts-ignore
       selectedFood = foodSuggestions[randomIndex];
       isSpinning = false;
     }, 2000); 
