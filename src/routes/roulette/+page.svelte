@@ -2,66 +2,75 @@
   import { userData } from '../../lib/stores/store.js'; // Import the store
   import { onMount } from 'svelte';
 
-  /** 
-   * @type {Array<{ id: number, name: string, moods: string[], weather: string[] }> }
-   */
   let foodSuggestions = [];
-  let isLoading = true; // State to track loading
-  let spinDegree = 0; // Track the spin degree of the wheel
-  let isSpinning = false; // To prevent continuous spinning on button click
-  /**
-   * @type {{ name: any; id?: number; moods?: string[]; weather?: string[]; } | null}
-   */
-  let selectedFood = null; // Track the food that is chosen by the roulette
+  let isLoading = true; 
+  let spinDegree = 0;
+  let isSpinning = false; 
+  let selectedFood = null;
   const minimumFoodItems = 9;
 
-  /**
-   * Fetches food data and filters it based on mood and weather
-   * @returns {Promise<void>}
-   */
   async function fetchFoodData() {
     try {
       const response = await fetch('/data/foodDatabase.json');
       const foodDatabase = await response.json();
-      foodSuggestions = foodDatabase.foods.filter((/** @type {{ moods: string | string[]; weather: string | string[]; }} */ food) =>
+      foodSuggestions = foodDatabase.foods.filter((food) =>
         food.moods.includes($userData.mood) && food.weather.includes($userData.weather)
       );
     } catch (error) {
       console.error("Error fetching food data:", error);
     } finally {
-      isLoading = false; // Set loading state to false once data is fetched
-
-      // Fill the array with blank food entries if there are fewer than 9 suggestions
+      isLoading = false;
       if (foodSuggestions.length < minimumFoodItems) {
         const blankSlots = minimumFoodItems - foodSuggestions.length;
         for (let i = 0; i < blankSlots; i++) {
-          // @ts-ignore
-          foodSuggestions.push({ name: 'Empty Slot' }); // Use a placeholder for empty slots
+          foodSuggestions.push({ name: 'Empty Slot' });
         }
       }
     }
   }
 
+  // Function to get random food suggestions
+  function getRandomFoodSuggestions() {
+  fetch('/data/foodDatabase.json')
+    .then((response) => response.json())
+    .then((foodDatabase) => {
+      // Start by ensuring we have enough items
+      let shuffledFoodSuggestions = foodDatabase.foods.sort(() => Math.random() - 0.5);
+      
+      // If there are fewer than 9 items, add placeholder items
+      if (shuffledFoodSuggestions.length < minimumFoodItems) {
+        const blankSlots = minimumFoodItems - shuffledFoodSuggestions.length;
+        for (let i = 0; i < blankSlots; i++) {
+          shuffledFoodSuggestions.push({ name: 'Empty Slot' });
+        }
+      }
+
+      // Slice to ensure only the top 9 suggestions
+      shuffledFoodSuggestions = shuffledFoodSuggestions.slice(0, minimumFoodItems);
+
+      // Set a new reference to trigger reactivity in Svelte
+      foodSuggestions = [...shuffledFoodSuggestions];
+    })
+    .catch((error) => {
+      console.error("Error fetching random food data:", error);
+    });
+}
+
+
   // Function to spin the roulette wheel
   function spinWheel() {
-    if (isSpinning) return; // Prevent spinning if already in progress
+    if (isSpinning) return; 
     isSpinning = true;
-
-    // Add random rotation to simulate the spin
     const rotation = Math.floor(Math.random() * 1000) + 1000;
     spinDegree += rotation;
 
-    // After the spin completes, randomly select a winner
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
       selectedFood = foodSuggestions[randomIndex];
-
-      // Reset spinning after animation duration
       isSpinning = false;
-    }, 2000); // 2s duration for the animation
+    }, 2000); 
   }
 
-  // Fetch food data when the component mounts
   onMount(() => {
     fetchFoodData();
   });
@@ -82,11 +91,8 @@
   {#if isLoading}
     <p class="mt-4 text-lg text-gray-500">Loading food suggestions...</p>
   {:else if foodSuggestions.length > 0}
-    <!-- Flex Container to Center Everything -->
     <div class="roulette-wrapper">
-      <!-- Roulette Wheel Container -->
       <div class="roulette-container">
-        <!-- Roulette Wheel Component -->
         <div class="roulette-wheel" style="transform: rotate({spinDegree}deg)">
           <div class="roulette-items">
             {#each foodSuggestions as food, i}
@@ -100,7 +106,6 @@
           </div>
         </div>
 
-        <!-- Display selected food in the center of the wheel (fixed) -->
         {#if selectedFood}
           <div class="selected-food">
             <span>{selectedFood.name}</span>
@@ -108,19 +113,21 @@
         {/if}
       </div>
 
-      <!-- Spin Button -->
-      <button on:click={spinWheel} class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
-        Spin the Wheel!
-      </button>
+      <div class="mt-4 flex justify-center gap-4">
+        <button on:click={spinWheel} class="px-4 py-2 bg-blue-500 text-white rounded-lg">
+          Spin the Wheel!
+        </button>
+        <button on:click={getRandomFoodSuggestions} class="px-4 py-2 bg-green-500 text-white rounded-lg">
+          Change Suggestions
+        </button>
+      </div>
     </div>
-
   {:else}
     <p class="mt-4 text-lg text-red-500">No food suggestions found for your mood and weather.</p>
   {/if}
 </div>
 
 <style>
-  /* Wrapper to Center All Elements */
   .roulette-wrapper {
     display: flex;
     flex-direction: column;
@@ -181,21 +188,21 @@
     position: absolute;
     left: 50%;
     top: 0;
-    transform: translateX(-50%) translateY(-100px) rotate(90deg);  /* Center text within the wheel */
-    font-size: 12px; /* Smaller font size */
-    max-width: 80px; /* Limit width to prevent overflow */
-    white-space: nowrap; /* Prevent text wrapping */
+    transform: translateX(-50%) translateY(-100px) rotate(90deg);
+    font-size: 12px;
+    max-width: 80px;
+    white-space: nowrap;
   }
 
   .selected-food {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Keep center fixed */
+    transform: translate(-50%, -50%);
     font-size: 18px;
     font-weight: bold;
     color: #333;
-    z-index: 10; /* Ensure the result appears on top of the wheel */
+    z-index: 10;
   }
 
   .selected-food span {

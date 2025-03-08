@@ -139,6 +139,180 @@
       "image": "https://example.com/images/grilled_fish.jpg",
       "moods": ["Adventurous", "Hungry"],
       "weather": ["Cool", "Windy"]
+    },
+
+    {
+      "foods": [
+        {
+          "id": 1,
+          "name": "Ice Cream",
+          "image": "https://example.com/images/ice_cream.jpg",
+          "moods": ["Happy", "Lazy", "Sad"],
+          "weather": ["Hot", "Sunny"]
+        },
+        {
+          "id": 2,
+          "name": "Pizza",
+          "image": "https://example.com/images/pizza.jpg",
+          "moods": ["Hungry", "Lazy", "Sad"],
+          "weather": ["Hot", "Cool", "Rainy"]
+        },
+        {
+          "id": 3,
+          "name": "Sushi",
+          "image": "https://example.com/images/sushi.jpg",
+          "moods": ["Adventurous", "Hungry"],
+          "weather": ["Hot", "Cool"]
+        },
+        {
+          "id": 4,
+          "name": "Ramen",
+          "image": "https://example.com/images/ramen.jpg",
+          "moods": ["Hungry", "Sad", "Adventurous"],
+          "weather": ["Cold", "Rainy"]
+        },
+        {
+          "id": 21,
+          "name": "Adobo",
+          "image": "https://example.com/images/adobo.jpg",
+          "moods": ["Hungry", "Lazy"],
+          "weather": ["Cool", "Rainy"]
+        },
+        {
+          "id": 22,
+          "name": "Sinigang",
+          "image": "https://example.com/images/sinigang.jpg",
+          "moods": ["Sad", "Hungry"],
+          "weather": ["Rainy", "Cold"]
+        },
+        {
+          "id": 23,
+          "name": "Lechon",
+          "image": "https://example.com/images/lechon.jpg",
+          "moods": ["Happy", "Adventurous"],
+          "weather": ["Sunny", "Hot"]
+        },
+        {
+          "id": 24,
+          "name": "Pancit Canton",
+          "image": "https://example.com/images/pancit_canton.jpg",
+          "moods": ["Lazy", "Hungry"],
+          "weather": ["Cool", "Windy"]
+        },
+        {
+          "id": 25,
+          "name": "Bulalo",
+          "image": "https://example.com/images/bulalo.jpg",
+          "moods": ["Hungry", "Sad"],
+          "weather": ["Cold", "Rainy"]
+        },
+        {
+          "id": 26,
+          "name": "Bicol Express",
+          "image": "https://example.com/images/bicol_express.jpg",
+          "moods": ["Adventurous", "Hungry"],
+          "weather": ["Cool", "Windy"]
+        },
+        {
+          "id": 27,
+          "name": "Halo-Halo",
+          "image": "https://example.com/images/halo_halo.jpg",
+          "moods": ["Happy", "Lazy"],
+          "weather": ["Hot", "Sunny"]
+        },
+        {
+          "id": 28,
+          "name": "Turon",
+          "image": "https://example.com/images/turon.jpg",
+          "moods": ["Lazy", "Happy"],
+          "weather": ["Cool", "Sunny"]
+        },
+        {
+          "id": 29,
+          "name": "Banana Cue",
+          "image": "https://example.com/images/bananacue.jpg",
+          "moods": ["Lazy", "Happy"],
+          "weather": ["Sunny", "Hot"]
+        },
+        {
+          "id": 30,
+          "name": "Kwek-Kwek",
+          "image": "https://example.com/images/kwek_kwek.jpg",
+          "moods": ["Adventurous", "Hungry"],
+          "weather": ["Hot", "Cool"]
+        },
+        {
+          "id": 31,
+          "name": "Taho",
+          "image": "https://example.com/images/taho.jpg",
+          "moods": ["Lazy", "Happy"],
+          "weather": ["Cool", "Rainy"]
+        },
+        {
+          "id": 32,
+          "name": "Puto Bumbong",
+          "image": "https://example.com/images/puto_bumbong.jpg",
+          "moods": ["Happy", "Hungry"],
+          "weather": ["Cold", "Rainy"]
+        },
+        {
+          "id": 33,
+          "name": "Champorado",
+          "image": "https://example.com/images/champorado.jpg",
+          "moods": ["Sad", "Lazy"],
+          "weather": ["Cold", "Rainy"]
+        },
+        {
+          "id": 34,
+          "name": "Isaw",
+          "image": "https://example.com/images/isaw.jpg",
+          "moods": ["Adventurous", "Hungry"],
+          "weather": ["Hot", "Cool"]
+        },
+        {
+          "id": 35,
+          "name": "Lumpiang Shanghai",
+          "image": "https://example.com/images/lumpiang_shanghai.jpg",
+          "moods": ["Happy", "Hungry"],
+          "weather": ["Cool", "Windy"]
+        },
+        {
+          "id": 36,
+          "name": "Ginataang Bilo-Bilo",
+          "image": "https://example.com/images/ginataang_bilo_bilo.jpg",
+          "moods": ["Sad", "Lazy"],
+          "weather": ["Cold", "Rainy"]
+        },
+        {
+          "id": 37,
+          "name": "Manggang Hilaw with Bagoong",
+          "image": "https://example.com/images/manggang_hilaw.jpg",
+          "moods": ["Adventurous", "Happy"],
+          "weather": ["Sunny", "Hot"]
+        },
+        {
+          "id": 38,
+          "name": "Balut",
+          "image": "https://example.com/images/balut.jpg",
+          "moods": ["Adventurous", "Hungry"],
+          "weather": ["Cool", "Windy"]
+        },
+        {
+          "id": 39,
+          "name": "Palabok",
+          "image": "https://example.com/images/palabok.jpg",
+          "moods": ["Hungry", "Happy"],
+          "weather": ["Cool", "Windy"]
+        },
+        {
+          "id": 40,
+          "name": "Buko Juice",
+          "image": "https://example.com/images/buko_juice.jpg",
+          "moods": ["Happy", "Lazy"],
+          "weather": ["Hot", "Sunny"]
+        }
+      ]
     }
+    
   ]
 }
