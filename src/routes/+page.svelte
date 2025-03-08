@@ -1,6 +1,6 @@
 <script>
   import { goto } from '$app/navigation';
-  import { userData } from '../lib/stores/store.js'; // Import the store
+  import { userData } from '../lib/stores/store.js';
 
   let moods = ["Happy", "Hungry", "Adventurous", "Lazy", "Sad"];
   let selectedMood = "";
@@ -10,10 +10,9 @@
   let places = ["Beach", "Mountain", "City", "Countryside"];
   let isLoading = false;
   let formError = false;
-  let currentStep = 1; // To track which step we're on (1: Mood, 2: Weather, 3: Place)
-
+  let currentStep = 1;
+  
   function handleSubmit() {
-    // Check if all required fields are filled
     if (!selectedMood || !selectedWeather || !selectedPlace) {
       formError = true;
       return;
@@ -21,179 +20,392 @@
 
     formError = false;
 
-    // Save the data to the store before navigating
     userData.set({
       mood: selectedMood,
       weather: selectedWeather,
-      // @ts-ignore
       place: selectedPlace
     });
 
     isLoading = true;
     setTimeout(() => {
       isLoading = false;
-      goto('/roulette');  // Redirect to the /roulette page
+      goto('/roulette');
     }, 1000);
   }
 
-  // @ts-ignore
   function selectMood(mood) {
     selectedMood = mood;
     rotateSection(2);
   }
 
-  // @ts-ignore
   function selectWeather(weather) {
     selectedWeather = weather;
     rotateSection(3);
   }
 
-  // @ts-ignore
   function selectPlace(place) {
     selectedPlace = place;
     handleSubmit();
   }
 
-  // @ts-ignore
   function rotateSection(step) {
     currentStep = step;
   }
+  
+  function goBack() {
+    if (currentStep > 1) {
+      currentStep--;
+    }
+  }
+
+  // Handle keyboard navigation
+  function handleKeyDown(event, action) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      action();
+    }
+  }
 </script>
 
-<div class="container">
-  <div class="p-6 text-center">
-
-    <!-- Mood Selection -->
-    {#if currentStep === 1}
-      <div class="input-box mood-selection active">
-        <label for="mood" class="block text-lg mb-4">How are you feeling today?</label>
-        <div class="options">
+<div class="adventure-container">
+  <div class="adventure-finder">
+    <!-- Title that changes based on step -->
+    <h1 class="title">
+      {#if currentStep === 1}
+        How are you feeling today?
+      {:else if currentStep === 2}
+        How's the weather?
+      {:else}
+        Where are you?
+      {/if}
+    </h1>
+    
+    <!-- Steps indicator -->
+    <div class="steps" role="tablist" aria-label="Progress steps">
+      <button 
+        class="step {currentStep >= 1 ? 'active' : ''}" 
+        role="tab"
+        aria-selected={currentStep === 1}
+        aria-label="Step 1: Feeling"
+        on:click={() => currentStep = 1}
+        on:keydown={(e) => handleKeyDown(e, () => currentStep = 1)}
+      ></button>
+      <button 
+        class="step {currentStep >= 2 ? 'active' : ''}" 
+        role="tab"
+        aria-selected={currentStep === 2}
+        aria-label="Step 2: Weather"
+        on:click={() => currentStep > 1 ? currentStep = 2 : null}
+        on:keydown={(e) => handleKeyDown(e, () => currentStep > 1 ? currentStep = 2 : null)}
+        tabindex={currentStep > 1 ? 0 : -1}
+      ></button>
+      <button 
+        class="step {currentStep >= 3 ? 'active' : ''}" 
+        role="tab"
+        aria-selected={currentStep === 3}
+        aria-label="Step 3: Location"
+        on:click={() => currentStep > 2 ? currentStep = 3 : null}
+        on:keydown={(e) => handleKeyDown(e, () => currentStep > 2 ? currentStep = 3 : null)}
+        tabindex={currentStep > 2 ? 0 : -1}
+      ></button>
+    </div>
+    
+    <!-- Content container with options -->
+    <div class="content-box" role="tabpanel">
+      <!-- Mood Selection -->
+      {#if currentStep === 1}
+        <div class="options-grid">
           {#each moods as mood}
-            <button on:click={() => selectMood(mood)} class="option-btn">{mood}</button>
+            <button 
+              on:click={() => selectMood(mood)} 
+              class="option-tile {selectedMood === mood ? 'selected' : ''}">
+              {mood}
+            </button>
           {/each}
         </div>
-      </div>
-    {/if}
+      {/if}
 
-    <!-- Weather Selection -->
-    {#if currentStep === 2}
-      <div class="input-box weather-selection active">
-        <label for="weather" class="block text-lg mb-4">How’s the weather?</label>
-        <div class="options">
+      <!-- Weather Selection -->
+      {#if currentStep === 2}
+        <div class="options-grid">
           {#each weathers as weather}
-            <button on:click={() => selectWeather(weather)} class="option-btn">{weather}</button>
+            <button 
+              on:click={() => selectWeather(weather)} 
+              class="option-tile {selectedWeather === weather ? 'selected' : ''}">
+              {weather}
+            </button>
           {/each}
         </div>
-      </div>
-    {/if}
+      {/if}
 
-    <!-- Place Selection -->
-    {#if currentStep === 3}
-      <div class="input-box place-selection active">
-        <label for="place" class="block text-lg mb-4">Where are you?</label>
-        <div class="options">
+      <!-- Place Selection -->
+      {#if currentStep === 3}
+        <div class="options-grid">
           {#each places as place}
-            <button on:click={() => selectPlace(place)} class="option-btn">{place}</button>
+            <button 
+              on:click={() => selectPlace(place)} 
+              class="option-tile {selectedPlace === place ? 'selected' : ''}">
+              {place}
+            </button>
           {/each}
         </div>
-      </div>
-    {/if}
+      {/if}
 
-    <!-- Form Error Message -->
+      <!-- Navigation -->
+      <div class="nav-controls">
+        {#if currentStep > 1}
+          <button class="nav-btn back" on:click={goBack} aria-label="Go back">←</button>
+        {:else}
+          <div></div> <!-- Empty div for spacing -->
+        {/if}
+        
+        {#if currentStep < 3 && ((currentStep === 1 && selectedMood) || (currentStep === 2 && selectedWeather))}
+          <button class="nav-btn next" on:click={() => rotateSection(currentStep + 1)} aria-label="Continue to next step">→</button>
+        {:else if currentStep === 3}
+          <div></div> <!-- Empty div for spacing -->
+        {/if}
+      </div>
+
+      <!-- Selection summary -->
+      <div class="selection-summary" aria-live="polite">
+        {#if selectedMood}
+          <span class="tag mood">{selectedMood}</span>
+        {/if}
+        {#if selectedWeather}
+          <span class="tag weather">{selectedWeather}</span>
+        {/if}
+        {#if selectedPlace}
+          <span class="tag place">{selectedPlace}</span>
+        {/if}
+      </div>
+    </div>
+
+    <!-- Error Message -->
     {#if formError}
-      <p class="text-red-500 mt-4">Please fill out all the fields before submitting.</p>
+      <p class="error" role="alert">All options must be selected</p>
     {/if}
 
-    <!-- Loading Spinner -->
+    <!-- Loading State -->
     {#if isLoading}
-      <div class="mt-4">
-        <div class="w-12 h-12 border-4 border-t-4 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
-        <p class="text-lg mt-2">Loading...</p>
+      <div class="loading" aria-live="assertive" aria-label="Loading">
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="sr-only">Loading...</span>
       </div>
     {/if}
-
-    <!-- Results -->
-    {#if !isLoading && selectedWeather && selectedMood && selectedPlace}
-      <p class="mt-4 text-lg">
-        You are feeling <strong>{selectedMood}</strong>, the weather is <strong>{selectedWeather}</strong> and you are at the <strong>{selectedPlace}</strong>.
-      </p>
-    {/if}
-
   </div>
 </div>
 
 <style>
-  /* Full screen container with flex to center content */
-  .container {
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap');
+
+  * {
+    box-sizing: border-box;
+    font-family: 'Baloo 2', cursive;
+  }
+
+  /* Background Design */
+  .adventure-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 94vh;
-    padding: 0 20px;
-    background-color: #F5F5DC; /* Background Beige */
+    min-height: 100vh;
+    background: linear-gradient(135deg, #FF6347, #FFD700); /* Tomato Red to Lemon Yellow gradient */
+    padding: 20px;
   }
 
-  .input-box {
-    display: none;
+  .adventure-finder {
+    width: 100%;
+    max-width: 500px;
     text-align: center;
-    perspective: 1000px; /* Give a 3D perspective to the box */
-    animation: rollForward 0.6s ease-out forwards;
   }
 
-  .input-box.active {
-    display: block;
+  .title {
+    color: #333333;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
   }
 
-  @keyframes rollForward {
-    0% {
-      opacity: 0;
-      transform: rotateX(-90deg) translateY(50px);
-    }
-    100% {
-      opacity: 1;
-      transform: rotateX(0deg) translateY(0);
-    }
+  .steps {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
   }
 
-  .options {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-  }
-
-  .option-btn {
-    background-color: #FF6347; /* Primary Red */
-    color: #F5F5DC; /* Background Beige */
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
+  .step {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ddd;
     cursor: pointer;
-    transition: background-color 0.3s;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, background 0.3s;
+    border: none;
+    padding: 0;
   }
 
-  .option-btn:hover {
-    background-color: #FFA500; /* Accent Orange */
+  .step.active {
+    background: #FF6347;
+    transform: scale(1.2);
   }
 
-  /* Responsive Styling */
-  @media (max-width: 768px) {
-    .input-box {
-      padding: 20px;
-    }
-    .options {
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    }
+  .step:focus {
+    outline: 2px solid #FF6347;
+    outline-offset: 2px;
   }
 
-  /* Style the error and loading spinner */
-  .text-red-500 {
-    color: #FF6347;
+  .content-box {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
   }
 
-  .animate-spin {
+  .content-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #FFD700;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .option-tile {
+    background: white;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    padding: 15px 10px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .option-tile:hover {
+    border-color: #FFA500;
+    transform: translateY(-3px);
+  }
+
+  .option-tile:focus {
+    outline: 2px solid #FF6347;
+    outline-offset: 2px;
+  }
+
+  .option-tile.selected {
+    background: #FF6347;
+    color: white;
+    border-color: #FF6347;
+    font-weight: bold;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 99, 71, 0.3);
+  }
+
+  .nav-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+  }
+
+  .nav-btn:focus {
+    outline: 2px solid #FF6347;
+    outline-offset: 2px;
+  }
+
+  .nav-btn.back {
+    background: #f0f0f0;
+    color: #333;
+  }
+
+  .nav-btn.back:hover {
+    background: #e0e0e0;
+  }
+
+  .nav-btn.next {
+    background: #FF6347;
+    color: white;
+  }
+
+  .nav-btn.next:hover {
+    background: #FF4136;
+    transform: scale(1.1);
+  }
+
+  .selection-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 15px;
+    justify-content: center;
+  }
+
+  .tag {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .tag.mood {
+    background: #FFD700;
+    color: #333;
+  }
+
+  .tag.weather {
+    background: #FFA500;
+    color: white;
+  }
+
+  .tag.place {
+    background: #98FB98;
+    color: #333;
+  }
+
+  .error {
+    color: #FF4136;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #FF6347;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
     animation: spin 1s linear infinite;
   }
 
