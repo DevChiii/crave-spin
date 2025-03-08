@@ -140,8 +140,6 @@
       "moods": ["Adventurous", "Hungry"],
       "weather": ["Cool", "Windy"]
     },
-
-  
     {
       "id": 21,
       "name": "Adobo",
@@ -283,4 +281,4 @@
       "weather": ["Hot", "Sunny"]
     }
   ]
-} 
+}
