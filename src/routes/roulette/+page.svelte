@@ -24,7 +24,7 @@
       if (foodSuggestions.length < minimumFoodItems) {
         const blankSlots = minimumFoodItems - foodSuggestions.length;
         for (let i = 0; i < blankSlots; i++) {
-          foodSuggestions.push({ name: 'Empty Slot' });
+          foodSuggestions.push({ name: 'No Food Found' });
         }
       }
     }
@@ -36,7 +36,7 @@
       .then((foodDatabase) => {
         let shuffledFoodSuggestions = foodDatabase.foods.sort(() => Math.random() - 0.5);
         while (shuffledFoodSuggestions.length < minimumFoodItems) {
-          shuffledFoodSuggestions.push({ name: 'Empty Slot' });
+          shuffledFoodSuggestions.push({ name: 'No Food Found' });
         }
         shuffledFoodSuggestions = shuffledFoodSuggestions.slice(0, minimumFoodItems);
         foodSuggestions = [...shuffledFoodSuggestions];
@@ -79,19 +79,19 @@
 <div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#FF6347] to-[#FFD700] p-6">
   <div class="w-full max-w-lg bg-white bg-opacity-90 rounded-lg shadow-lg p-6 text-center">
     
-    <h1 class="text-2xl font-bold text-[#333333] mb-4">Your Selections</h1>
+    <h1 class="text-2xl font-extrabold text-[#333333] mb-4">Your Preferences</h1>
 
     {#if $userData.mood}
       <p class="text-lg text-[#333333] leading-relaxed">
-        You are in <strong>{$userData.place}</strong>, the weather is <strong>{$userData.weather}</strong>,
-        and you are feeling <strong class="text-[#FF6347]">{$userData.mood}</strong>.
+        You are currently in <strong>{$userData.place}</strong> with <strong>{$userData.weather}</strong> weather,  
+        feeling <strong class="text-[#FF6347]">{$userData.mood}</strong>.
       </p>
     {/if}
 
-    <h2 class="text-xl font-semibold text-[#FF6347] mt-6 mb-4">Food Suggestions</h2>
+    <h2 class="text-xl font-bold text-[#FF6347] mt-6 mb-4">Recommended Foods</h2>
 
     {#if isLoading}
-      <p class="text-lg text-[#333333]">Loading food suggestions...</p>
+      <p class="text-lg text-[#333333]">Finding the best food options for you...</p>
     {:else if foodSuggestions.length > 0}
       <div class="roulette-wrapper">
         <div class="roulette-container">
@@ -115,23 +115,23 @@
           {/if}
         </div>
 
-        <!-- ✅ Buttons with Fixed Sizes + Better Spacing -->
+        <!-- ✅ Improved Button Labels & Consistent Sizes -->
         <div class="mt-6 flex flex-col md:flex-row justify-center gap-4 w-full">
           <button 
             on:click={() => { spinWheel(); resetBlur(); }} 
-            class="w-full md:w-44 px-6 py-3 text-lg md:text-xl bg-[#FF6347] text-white rounded-lg hover:bg-[#E25438] transition-all">
-            Spin!
+            class="w-full md:w-36 px-4 py-2 text-md md:text-lg font-bold bg-[#FF6347] text-white rounded-lg hover:bg-[#E25438] transition-all">
+            🎰 Spin
           </button>
           
           <button 
             on:click={() => { getRandomFoodSuggestions(); resetBlur(); }} 
-            class="w-full md:w-44 px-6 py-3 text-lg md:text-xl bg-[#98FF98] text-[#333333] rounded-lg hover:bg-[#89EE89] transition-all">
-            Random
+            class="w-full md:w-36 px-4 py-2 text-md md:text-lg font-bold bg-[#98FF98] text-[#333333] rounded-lg hover:bg-[#89EE89] transition-all">
+            🔀 Shuffle
           </button>
-        </div>
+        </div>        
       </div>
     {:else}
-      <p class="mt-4 text-lg text-[#FF6347]">No food suggestions found for your mood and weather.</p>
+      <p class="mt-4 text-lg text-[#FF6347]">No food matches your preferences. Try shuffling!</p>
     {/if}
   </div>
 </div>
@@ -221,17 +221,5 @@
     background-color: rgba(255, 255, 255, 0.8);
     padding: 8px 12px;
     border-radius: 4px;
-  }
-
-  button {
-    transition: all 0.2s ease;
-  }
-
-  button:hover {
-    opacity: 0.9;
-  }
-
-  button:active {
-    transform: translateY(1px);
   }
 </style>
