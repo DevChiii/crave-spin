@@ -79,10 +79,11 @@
     {#if isMenuOpen}
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <div 
-        class="fixed inset-0 bg-black bg-opacity-50 z-40"
-        on:click={closeMenu}
+      <div
+      class="fixed inset-0 bg-[#fa9e53] bg-opacity-30 backdrop-blur-lg z-40"
+      on:click={closeMenu}
       ></div>
+
       
       <div class="fixed top-0 right-0 w-64 h-full bg-[#F5F5DC] z-50 transform transition-transform duration-300 ease-in-out">
         <div class="flex justify-end p-4">

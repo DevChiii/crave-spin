@@ -128,7 +128,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 94vh;
     padding: 0 20px;
     background-color: #F5F5DC; /* Background Beige */
   }
