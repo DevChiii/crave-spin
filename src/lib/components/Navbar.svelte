@@ -41,7 +41,7 @@
     <div class="container mx-auto px-6 flex justify-between items-center">
       <!-- Logo -->
       <a href="/" class="text-[#FF6347] text-2xl font-bold flex items-center">
-        <span>FoodMood</span>
+        <span>CraveSpin</span>
       </a>
       
       <!-- Desktop Navigation -->
