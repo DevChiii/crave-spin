@@ -11,6 +11,11 @@
   let isLoading = false;
   let formError = false;
   let currentStep = 1;
+  // @ts-ignore
+  /**
+	 * @type {string | null}
+	 */
+  let lastClickedOption = null;
   
   function handleSubmit() {
     if (!selectedMood || !selectedWeather || !selectedPlace) {
@@ -33,21 +38,28 @@
     }, 1000);
   }
 
+  // @ts-ignore
   function selectMood(mood) {
     selectedMood = mood;
-    rotateSection(2);
+    applyClickEffect(mood);
+    setTimeout(() => rotateSection(2), 300);
   }
 
+  // @ts-ignore
   function selectWeather(weather) {
     selectedWeather = weather;
-    rotateSection(3);
+    applyClickEffect(weather);
+    setTimeout(() => rotateSection(3), 300);
   }
 
+  // @ts-ignore
   function selectPlace(place) {
     selectedPlace = place;
-    handleSubmit();
+    applyClickEffect(place);
+    setTimeout(() => handleSubmit(), 300);
   }
 
+  // @ts-ignore
   function rotateSection(step) {
     currentStep = step;
   }
@@ -58,18 +70,28 @@
     }
   }
 
-  // Handle keyboard navigation
+  // @ts-ignore
   function handleKeyDown(event, action) {
     if (event.key === 'Enter' || event.key === ' ') {
       action();
     }
   }
+  
+  // @ts-ignore
+  function applyClickEffect(option) {
+    lastClickedOption = option;
+    // Reset after animation completes
+    setTimeout(() => {
+      lastClickedOption = null;
+    }, 500);
+  }
 </script>
 
-<div class="adventure-container">
-  <div class="adventure-finder">
+<div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#F8B195] to-[#F67280] p-6">
+  <div class="w-full max-w-lg bg-white bg-opacity-95 rounded-lg shadow-lg p-6 text-center">
+    
     <!-- Title that changes based on step -->
-    <h1 class="title">
+    <h1 class="text-2xl font-extrabold text-[#2E4057] mb-4">
       {#if currentStep === 1}
         How are you feeling today?
       {:else if currentStep === 2}
@@ -80,9 +102,9 @@
     </h1>
     
     <!-- Steps indicator -->
-    <div class="steps" role="tablist" aria-label="Progress steps">
+    <div class="flex justify-center gap-3 mb-6" role="tablist" aria-label="Progress steps">
       <button 
-        class="step {currentStep >= 1 ? 'active' : ''}" 
+        class="w-3 h-3 rounded-full transition-all {currentStep >= 1 ? 'bg-[#F67280] scale-110' : 'bg-gray-300'}" 
         role="tab"
         aria-selected={currentStep === 1}
         aria-label="Step 1: Feeling"
@@ -90,7 +112,7 @@
         on:keydown={(e) => handleKeyDown(e, () => currentStep = 1)}
       ></button>
       <button 
-        class="step {currentStep >= 2 ? 'active' : ''}" 
+        class="w-3 h-3 rounded-full transition-all {currentStep >= 2 ? 'bg-[#F67280] scale-110' : 'bg-gray-300'}" 
         role="tab"
         aria-selected={currentStep === 2}
         aria-label="Step 2: Weather"
@@ -99,7 +121,7 @@
         tabindex={currentStep > 1 ? 0 : -1}
       ></button>
       <button 
-        class="step {currentStep >= 3 ? 'active' : ''}" 
+        class="w-3 h-3 rounded-full transition-all {currentStep >= 3 ? 'bg-[#F67280] scale-110' : 'bg-gray-300'}" 
         role="tab"
         aria-selected={currentStep === 3}
         aria-label="Step 3: Location"
@@ -110,84 +132,99 @@
     </div>
     
     <!-- Content container with options -->
-    <div class="content-box" role="tabpanel">
-      <!-- Mood Selection -->
-      {#if currentStep === 1}
-        <div class="options-grid">
-          {#each moods as mood}
+    <div class="bg-white rounded-lg relative overflow-hidden" role="tabpanel">
+      <!-- Purple accent bar at top -->
+      <div class="h-1 w-full bg-[#6C5B7B] absolute top-0 left-0"></div>
+      
+      <div class="p-6">
+        <!-- Mood Selection -->
+        {#if currentStep === 1}
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {#each moods as mood}
+              <button 
+                on:click={() => selectMood(mood)} 
+                class="py-3 px-2 rounded-lg border-2 text-lg transition-all {selectedMood === mood ? 'bg-[#F67280] text-white border-[#F67280] font-bold -translate-y-1 shadow-md' : 'border-gray-200 text-[#2E4057] hover:border-[#F8B195] hover:-translate-y-1'} {lastClickedOption === mood ? 'click-effect' : ''}">
+                {mood}
+              </button>
+            {/each}
+          </div>
+        {/if}
+
+        <!-- Weather Selection -->
+        {#if currentStep === 2}
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {#each weathers as weather}
+              <button 
+                on:click={() => selectWeather(weather)} 
+                class="py-3 px-2 rounded-lg border-2 text-lg transition-all {selectedWeather === weather ? 'bg-[#F67280] text-white border-[#F67280] font-bold -translate-y-1 shadow-md' : 'border-gray-200 text-[#2E4057] hover:border-[#F8B195] hover:-translate-y-1'} {lastClickedOption === weather ? 'click-effect' : ''}">
+                {weather}
+              </button>
+            {/each}
+          </div>
+        {/if}
+
+        <!-- Place Selection -->
+        {#if currentStep === 3}
+          <div class="grid grid-cols-2 gap-3">
+            {#each places as place}
+              <button 
+                on:click={() => selectPlace(place)} 
+                class="py-3 px-2 rounded-lg border-2 text-lg transition-all {selectedPlace === place ? 'bg-[#F67280] text-white border-[#F67280] font-bold -translate-y-1 shadow-md' : 'border-gray-200 text-[#2E4057] hover:border-[#F8B195] hover:-translate-y-1'} {lastClickedOption === place ? 'click-effect' : ''}">
+                {place}
+              </button>
+            {/each}
+          </div>
+        {/if}
+
+        <!-- Navigation -->
+        <div class="flex justify-between mt-6">
+          {#if currentStep > 1}
             <button 
-              on:click={() => selectMood(mood)} 
-              class="option-tile {selectedMood === mood ? 'selected' : ''}">
-              {mood}
+              class="w-10 h-10 rounded-full bg-gray-100 text-[#2E4057] flex items-center justify-center text-xl transition-all hover:bg-gray-200 active:scale-95" 
+              on:click={goBack} 
+              aria-label="Go back">
+              ←
             </button>
-          {/each}
-        </div>
-      {/if}
-
-      <!-- Weather Selection -->
-      {#if currentStep === 2}
-        <div class="options-grid">
-          {#each weathers as weather}
+          {:else}
+            <div></div> <!-- Empty div for spacing -->
+          {/if}
+          
+          {#if currentStep < 3 && ((currentStep === 1 && selectedMood) || (currentStep === 2 && selectedWeather))}
             <button 
-              on:click={() => selectWeather(weather)} 
-              class="option-tile {selectedWeather === weather ? 'selected' : ''}">
-              {weather}
+              class="w-10 h-10 rounded-full bg-[#F67280] text-white flex items-center justify-center text-xl transition-all hover:bg-[#E56270] hover:scale-110 active:scale-95" 
+              on:click={() => rotateSection(currentStep + 1)} 
+              aria-label="Continue to next step">
+              →
             </button>
-          {/each}
+          {:else if currentStep === 3}
+            <div></div> <!-- Empty div for spacing -->
+          {/if}
         </div>
-      {/if}
 
-      <!-- Place Selection -->
-      {#if currentStep === 3}
-        <div class="options-grid">
-          {#each places as place}
-            <button 
-              on:click={() => selectPlace(place)} 
-              class="option-tile {selectedPlace === place ? 'selected' : ''}">
-              {place}
-            </button>
-          {/each}
+        <!-- Selection summary -->
+        <div class="flex flex-wrap gap-2 mt-6 justify-center" aria-live="polite">
+          {#if selectedMood}
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-[#F8B195] text-[#2E4057]">{selectedMood}</span>
+          {/if}
+          {#if selectedWeather}
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-[#F67280] text-white">{selectedWeather}</span>
+          {/if}
+          {#if selectedPlace}
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-[#6C5B7B] text-white">{selectedPlace}</span>
+          {/if}
         </div>
-      {/if}
-
-      <!-- Navigation -->
-      <div class="nav-controls">
-        {#if currentStep > 1}
-          <button class="nav-btn back" on:click={goBack} aria-label="Go back">←</button>
-        {:else}
-          <div></div> <!-- Empty div for spacing -->
-        {/if}
-        
-        {#if currentStep < 3 && ((currentStep === 1 && selectedMood) || (currentStep === 2 && selectedWeather))}
-          <button class="nav-btn next" on:click={() => rotateSection(currentStep + 1)} aria-label="Continue to next step">→</button>
-        {:else if currentStep === 3}
-          <div></div> <!-- Empty div for spacing -->
-        {/if}
-      </div>
-
-      <!-- Selection summary -->
-      <div class="selection-summary" aria-live="polite">
-        {#if selectedMood}
-          <span class="tag mood">{selectedMood}</span>
-        {/if}
-        {#if selectedWeather}
-          <span class="tag weather">{selectedWeather}</span>
-        {/if}
-        {#if selectedPlace}
-          <span class="tag place">{selectedPlace}</span>
-        {/if}
       </div>
     </div>
 
     <!-- Error Message -->
     {#if formError}
-      <p class="error" role="alert">All options must be selected</p>
+      <p class="text-[#E56270] mt-4 text-lg" role="alert">All options must be selected</p>
     {/if}
 
     <!-- Loading State -->
     {#if isLoading}
-      <div class="loading" aria-live="assertive" aria-label="Loading">
-        <div class="spinner" aria-hidden="true"></div>
+      <div class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50" aria-live="assertive" aria-label="Loading">
+        <div class="w-12 h-12 border-4 border-[rgba(255,255,255,0.3)] border-t-[#F67280] rounded-full animate-spin" aria-hidden="true"></div>
         <span class="sr-only">Loading...</span>
       </div>
     {/if}
@@ -195,222 +232,76 @@
 </div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap');
 
-  * {
+  :global(*) {
     box-sizing: border-box;
     font-family: 'Baloo 2', cursive;
-  }
-
-  /* Background Design */
-  .adventure-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #FF6347, #FFD700); /* Tomato Red to Lemon Yellow gradient */
-    padding: 20px;
-  }
-
-  .adventure-finder {
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-  }
-
-  .title {
-    color: #333333;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-  }
-
-  .steps {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .step {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ddd;
-    cursor: pointer;
-    transition: transform 0.3s, background 0.3s;
-    border: none;
-    padding: 0;
-  }
-
-  .step.active {
-    background: #FF6347;
-    transform: scale(1.2);
-  }
-
-  .step:focus {
-    outline: 2px solid #FF6347;
-    outline-offset: 2px;
-  }
-
-  .content-box {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .content-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: #FFD700;
-  }
-
-  .options-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .option-tile {
-    background: white;
-    border: 2px solid #eee;
-    border-radius: 10px;
-    padding: 15px 10px;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.25s;
-  }
-
-  .option-tile:hover {
-    border-color: #FFA500;
-    transform: translateY(-3px);
-  }
-
-  .option-tile:focus {
-    outline: 2px solid #FF6347;
-    outline-offset: 2px;
-  }
-
-  .option-tile.selected {
-    background: #FF6347;
-    color: white;
-    border-color: #FF6347;
-    font-weight: bold;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(255, 99, 71, 0.3);
-  }
-
-  .nav-controls {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-  }
-
-  .nav-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-  }
-
-  .nav-btn:focus {
-    outline: 2px solid #FF6347;
-    outline-offset: 2px;
-  }
-
-  .nav-btn.back {
-    background: #f0f0f0;
-    color: #333;
-  }
-
-  .nav-btn.back:hover {
-    background: #e0e0e0;
-  }
-
-  .nav-btn.next {
-    background: #FF6347;
-    color: white;
-  }
-
-  .nav-btn.next:hover {
-    background: #FF4136;
-    transform: scale(1.1);
-  }
-
-  .selection-summary {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 15px;
-    justify-content: center;
-  }
-
-  .tag {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: bold;
-  }
-
-  .tag.mood {
-    background: #FFD700;
-    color: #333;
-  }
-
-  .tag.weather {
-    background: #FFA500;
-    color: white;
-  }
-
-  .tag.place {
-    background: #98FB98;
-    color: #333;
-  }
-
-  .error {
-    color: #FF4136;
-    margin-top: 10px;
-    font-size: 14px;
-  }
-
-  .loading {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .spinner {
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid #FF6347;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
   }
 
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+  
+  /* Smoother click effect animation */
+  @keyframes clickPulse {
+    0% { transform: scale(1); }
+    40% { transform: scale(0.95); box-shadow: 0 0 0 6px rgba(246, 114, 128, 0.3); }
+    100% { transform: scale(1); }
+  }
+  
+  .click-effect {
+    animation: clickPulse 0.4s ease-out;
+    background-color: rgba(246, 114, 128, 0.1);
+  }
+  
+  /* Smooth transitions for button hover and selected states */
+  button {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    transform: translateY(-2px); /* Slight hover lift */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  button:active {
+    transform: scale(0.98); /* Slight shrink on click */
+  }
+
+  button:focus-visible {
+    outline: 2px solid #F67280;
+    outline-offset: 2px;
+  }
+
+  /* Active state for selected buttons */
+  /* .selected {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px rgba(246, 114, 128, 0.2);
+  } */
+
+  /* Enhanced focus styles */
+  button:focus-visible {
+    outline: 2px solid #F67280;
+    outline-offset: 2px;
+  }
+
+  /* Pulse for selection tags */
+  @keyframes tagPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  /* .selection-summary span {
+    animation: tagPulse 1s ease-in-out;
+  } */
+  
+  /* Button states for selection */
+  /* .options-grid button {
+    transition: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.2s ease-in-out;
+  } */
 </style>
