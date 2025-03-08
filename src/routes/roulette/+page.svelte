@@ -130,7 +130,7 @@
             Spin the Wheel!
           </button>
           <button on:click={() => { getRandomFoodSuggestions(); resetBlur(); }} class="px-4 py-2 bg-[#98FF98] text-[#333333] rounded-lg hover:bg-[#89EE89] transition-colors">
-            Change Suggestions
+            Random Suggestions
           </button>
         </div>
       </div>
