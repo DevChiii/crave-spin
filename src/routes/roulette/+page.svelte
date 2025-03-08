@@ -87,56 +87,57 @@
   });
 </script>
 
-<div class="p-6 text-center">
-  <h1 class="text-2xl font-bold mb-4 text-[#FF6347]">Your Selections</h1>
+<div class="p-6 bg-gradient-to-br from-[#FF6347] to-[#FFD700] min-h-screen flex flex-col items-center justify-center">
+  <div class="w-full max-w-xl text-center bg-white bg-opacity-80 p-6 rounded-lg shadow-lg">
+    <h1 class="text-2xl font-bold mb-4 text-[#333333]">Your Selections</h1>
 
-  {#if $userData.mood}
-  <p class="mt-4 text-lg">
-    You are in <strong>{$userData.place}</strong>, the weather is <strong>{$userData.weather}</strong>,
-    and you are feeling <strong class="text-[#FF6347]">{$userData.mood}</strong>.
-  </p>
-  
-  {/if}
+    {#if $userData.mood}
+      <p class="mt-4 text-lg text-[#333333]">
+        You are in <strong>{$userData.place}</strong>, the weather is <strong>{$userData.weather}</strong>,
+        and you are feeling <strong class="text-[#FF6347]">{$userData.mood}</strong>.
+      </p>
+    {/if}
 
-  <h2 class="text-xl font-semibold mt-6 mb-4 text-[#FF6347]">Food Suggestions</h2>
+    <h2 class="text-xl font-semibold mt-6 mb-4 text-[#FF6347]">Food Suggestions</h2>
 
-  {#if isLoading}
-    <p class="mt-4 text-lg text-[#333]">Loading food suggestions...</p>
-  {:else if foodSuggestions.length > 0}
-    <div class="roulette-wrapper">
-      <div class="roulette-container">
-        <div class="roulette-wheel" style="transform: rotate({spinDegree}deg)">
-          <div class="roulette-items {isBlurred ? 'blurred' : ''}">
-            {#each foodSuggestions as food, i}
-              <div
-                class="roulette-item {food.isHighlighted ? 'highlighted' : ''}"
-                style="transform: rotate({(360 / foodSuggestions.length) * i}deg) translateY(-50%)"
-              >
-                <span>{food.name}</span>
-              </div>
-            {/each}
+    {#if isLoading}
+      <p class="mt-4 text-lg text-[#333333]">Loading food suggestions...</p>
+    {:else if foodSuggestions.length > 0}
+      <div class="roulette-wrapper">
+        <div class="roulette-container">
+          <div class="roulette-wheel" style="transform: rotate({spinDegree}deg)">
+            <div class="roulette-items {isBlurred ? 'blurred' : ''}">
+              {#each foodSuggestions as food, i}
+                <div
+                  class="roulette-item {food.isHighlighted ? 'highlighted' : ''}"
+                  style="transform: rotate({(360 / foodSuggestions.length) * i}deg) translateY(-50%)"
+                >
+                  <span>{food.name}</span>
+                </div>
+              {/each}
+            </div>
           </div>
+
+          {#if selectedFood}
+            <div class="selected-food">
+              <span>{selectedFood.name}</span>
+            </div>
+          {/if}
         </div>
 
-        {#if selectedFood}
-          <div class="selected-food">
-            <span>{selectedFood.name}</span>
-          </div>
-        {/if}
+        <div class="mt-4 flex justify-center gap-4">
+          <button on:click={() => { spinWheel(); resetBlur(); }} class="px-4 py-2 bg-[#FF6347] text-white rounded-lg hover:bg-[#E25438] transition-colors">
+            Spin the Wheel!
+          </button>
+          <button on:click={() => { getRandomFoodSuggestions(); resetBlur(); }} class="px-4 py-2 bg-[#98FF98] text-[#333333] rounded-lg hover:bg-[#89EE89] transition-colors">
+            Change Suggestions
+          </button>
+        </div>
       </div>
-
-      <div class="mt-4 flex justify-center gap-4">
-        <button on:click={() => { spinWheel(); resetBlur(); }} class="px-4 py-2 bg-[#FF6347] text-white rounded-lg hover:bg-[#E25438] transition-colors">
-          Spin the Wheel!
-        </button>
-        <button on:click={() => { getRandomFoodSuggestions(); resetBlur(); }} class="px-4 py-2 bg-[#98FF98] text-[#333] rounded-lg hover:bg-[#89EE89] transition-colors">
-          Change Suggestions
-        </button>
-      </div>
-    </div>
-  {:else}
-    <p class="mt-4 text-lg text-[#FF6347]">No food suggestions found for your mood and weather.</p>
-  {/if}
+    {:else}
+      <p class="mt-4 text-lg text-[#FF6347]">No food suggestions found for your mood and weather.</p>
+    {/if}
+  </div>
 </div>
 
 <style>
@@ -223,7 +224,7 @@
     transform: translate(-50%, -50%);
     font-size: 18px;
     font-weight: bold;
-    color: #333;
+    color: #333333;
     z-index: 10;
     background-color: rgba(255, 255, 255, 0.8);
     padding: 8px 12px;
@@ -233,7 +234,7 @@
   .selected-food span {
     font-size: 18px;
     font-weight: bold;
-    color: #333;
+    color: #333333;
   }
 
   button {
