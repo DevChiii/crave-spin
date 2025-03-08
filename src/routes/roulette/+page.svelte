@@ -4,16 +4,17 @@
 
   // @ts-ignore
   /**
-	 * @type {any[]}
-	 */
+   * @type {any[]}
+   */
   let foodSuggestions = [];
-  let isLoading = true; 
+  let isLoading = true;
   let spinDegree = 0;
-  let isSpinning = false; 
+  let isSpinning = false;
+  let isBlurred = false;  // Track blur state
   // @ts-ignore
   /**
-	 * @type {{ name: any; } | null}
-	 */
+   * @type {{ name: any; } | null}
+   */
   let selectedFood = null;
   const minimumFoodItems = 9;
 
@@ -40,46 +41,56 @@
 
   // Function to get random food suggestions
   function getRandomFoodSuggestions() {
-  fetch('/data/foodDatabase.json')
-    .then((response) => response.json())
-    .then((foodDatabase) => {
-      // Shuffle the entire foodDatabase
-      let shuffledFoodSuggestions = foodDatabase.foods.sort(() => Math.random() - 0.5);
+    fetch('/data/foodDatabase.json')
+      .then((response) => response.json())
+      .then((foodDatabase) => {
+        // Shuffle the entire foodDatabase
+        let shuffledFoodSuggestions = foodDatabase.foods.sort(() => Math.random() - 0.5);
 
-      // Add placeholders if there are fewer than 9 items
-      while (shuffledFoodSuggestions.length < minimumFoodItems) {
-        shuffledFoodSuggestions.push({ name: 'Empty Slot' });
-      }
+        // Add placeholders if there are fewer than 9 items
+        while (shuffledFoodSuggestions.length < minimumFoodItems) {
+          shuffledFoodSuggestions.push({ name: 'Empty Slot' });
+        }
 
-      // Slice the array to ensure exactly 9 items
-      shuffledFoodSuggestions = shuffledFoodSuggestions.slice(0, minimumFoodItems);
+        // Slice the array to ensure exactly 9 items
+        shuffledFoodSuggestions = shuffledFoodSuggestions.slice(0, minimumFoodItems);
 
-      // Set the new random suggestions
-      foodSuggestions = [...shuffledFoodSuggestions];
-    })
-    .catch((error) => {
-      console.error("Error fetching random food data:", error);
-    });
-}
-
-
-
-
-
+        // Set the new random suggestions
+        foodSuggestions = [...shuffledFoodSuggestions];
+      })
+      .catch((error) => {
+        console.error("Error fetching random food data:", error);
+      });
+  }
 
   // Function to spin the roulette wheel
   function spinWheel() {
-    if (isSpinning) return; 
+    if (isSpinning) return;
     isSpinning = true;
     const rotation = Math.floor(Math.random() * 1000) + 1000;
     spinDegree += rotation;
 
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
-      // @ts-ignore
       selectedFood = foodSuggestions[randomIndex];
       isSpinning = false;
-    }, 2000); 
+
+      // Add a highlight class to the selected food after the spin
+      foodSuggestions = foodSuggestions.map((food, index) => ({
+        ...food,
+        isHighlighted: index === randomIndex,  // Highlight the selected food
+      }));
+
+      // Enable the blur effect on the background
+      isBlurred = true;
+    }, 2000);
+  }
+
+  // Function to reset blur effect when "Spin the Wheel" or "Change Suggestions" is clicked
+  function resetBlur() {
+    // Remove the result and reset the blur state
+    selectedFood = null;
+    isBlurred = false;
   }
 
   onMount(() => {
@@ -105,10 +116,10 @@
     <div class="roulette-wrapper">
       <div class="roulette-container">
         <div class="roulette-wheel" style="transform: rotate({spinDegree}deg)">
-          <div class="roulette-items">
+          <div class="roulette-items {isBlurred ? 'blurred' : ''}">
             {#each foodSuggestions as food, i}
               <div
-                class="roulette-item"
+                class="roulette-item {food.isHighlighted ? 'highlighted' : ''}"
                 style="transform: rotate({(360 / foodSuggestions.length) * i}deg) translateY(-50%)"
               >
                 <span>{food.name}</span>
@@ -125,10 +136,10 @@
       </div>
 
       <div class="mt-4 flex justify-center gap-4">
-        <button on:click={spinWheel} class="px-4 py-2 bg-blue-500 text-white rounded-lg">
+        <button on:click={() => { spinWheel(); resetBlur(); }} class="px-4 py-2 bg-blue-500 text-white rounded-lg">
           Spin the Wheel!
         </button>
-        <button on:click={getRandomFoodSuggestions} class="px-4 py-2 bg-green-500 text-white rounded-lg">
+        <button on:click={() => { getRandomFoodSuggestions(); resetBlur(); }} class="px-4 py-2 bg-green-500 text-white rounded-lg">
           Change Suggestions
         </button>
       </div>
@@ -177,6 +188,11 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    transition: filter 0.5s ease-in-out;
+  }
+
+  .roulette-items.blurred {
+    filter: blur(4px); /* Apply the blur effect */
   }
 
   .roulette-item {
