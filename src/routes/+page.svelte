@@ -25,6 +25,7 @@
     userData.set({
       mood: selectedMood,
       weather: selectedWeather,
+      // @ts-ignore
       place: selectedPlace
     });
 
@@ -35,21 +36,25 @@
     }, 1000);
   }
 
+  // @ts-ignore
   function selectMood(mood) {
     selectedMood = mood;
     rotateSection(2);
   }
 
+  // @ts-ignore
   function selectWeather(weather) {
     selectedWeather = weather;
     rotateSection(3);
   }
 
+  // @ts-ignore
   function selectPlace(place) {
     selectedPlace = place;
     handleSubmit();
   }
 
+  // @ts-ignore
   function rotateSection(step) {
     currentStep = step;
   }
@@ -57,12 +62,11 @@
 
 <div class="container">
   <div class="p-6 text-center">
-    <h1 class="text-2xl font-bold mb-4">How are you feeling today?</h1>
 
     <!-- Mood Selection -->
     {#if currentStep === 1}
       <div class="input-box mood-selection active">
-        <label for="mood" class="block text-lg mb-2">How are you feeling today?</label>
+        <label for="mood" class="block text-lg mb-4">How are you feeling today?</label>
         <div class="options">
           {#each moods as mood}
             <button on:click={() => selectMood(mood)} class="option-btn">{mood}</button>
@@ -74,7 +78,7 @@
     <!-- Weather Selection -->
     {#if currentStep === 2}
       <div class="input-box weather-selection active">
-        <label for="weather" class="block text-lg mb-2">How’s the weather?</label>
+        <label for="weather" class="block text-lg mb-4">How’s the weather?</label>
         <div class="options">
           {#each weathers as weather}
             <button on:click={() => selectWeather(weather)} class="option-btn">{weather}</button>
@@ -86,7 +90,7 @@
     <!-- Place Selection -->
     {#if currentStep === 3}
       <div class="input-box place-selection active">
-        <label for="place" class="block text-lg mb-2">Where are you?</label>
+        <label for="place" class="block text-lg mb-4">Where are you?</label>
         <div class="options">
           {#each places as place}
             <button on:click={() => selectPlace(place)} class="option-btn">{place}</button>
@@ -111,8 +115,7 @@
     <!-- Results -->
     {#if !isLoading && selectedWeather && selectedMood && selectedPlace}
       <p class="mt-4 text-lg">
-        You are feeling <strong>{selectedMood}</strong>, the weather is <strong>{selectedWeather}</strong>,
-        and you are at the <strong>{selectedPlace}</strong>.
+        You are feeling <strong>{selectedMood}</strong>, the weather is <strong>{selectedWeather}</strong> and you are at the <strong>{selectedPlace}</strong>.
       </p>
     {/if}
 
