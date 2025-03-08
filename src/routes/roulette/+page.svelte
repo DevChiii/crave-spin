@@ -1,20 +1,12 @@
 <script>
-  import { userData } from '../../lib/stores/store.js'; // Import the store
+  import { userData } from '../../lib/stores/store.js';
   import { onMount } from 'svelte';
 
-  // @ts-ignore
-  /**
-	 * @type {any[]}
-	 */
   let foodSuggestions = [];
   let isLoading = true;
   let spinDegree = 0;
   let isSpinning = false;
   let isBlurred = false;
-  // @ts-ignore
-  /**
-	 * @type {{ name: any; } | null}
-	 */
   let selectedFood = null;
   const minimumFoodItems = 9;
 
@@ -22,7 +14,6 @@
     try {
       const response = await fetch('/data/foodDatabase.json');
       const foodDatabase = await response.json();
-      // @ts-ignore
       foodSuggestions = foodDatabase.foods.filter((food) =>
         food.moods.includes($userData.mood) && food.weather.includes($userData.weather)
       );
@@ -63,11 +54,9 @@
 
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
-      // @ts-ignore
       selectedFood = foodSuggestions[randomIndex];
       isSpinning = false;
 
-      // @ts-ignore
       foodSuggestions = foodSuggestions.map((food, index) => ({
         ...food,
         isHighlighted: index === randomIndex,
@@ -87,21 +76,22 @@
   });
 </script>
 
-<div class="p-6 bg-gradient-to-br from-[#FF6347] to-[#FFD700] min-h-screen flex flex-col items-center justify-center">
-  <div class="w-full max-w-xl text-center bg-white bg-opacity-80 p-6 rounded-lg shadow-lg">
-    <h1 class="text-2xl font-bold mb-4 text-[#333333]">Your Selections</h1>
+<div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#FF6347] to-[#FFD700] p-6">
+  <div class="w-full max-w-lg bg-white bg-opacity-90 rounded-lg shadow-lg p-6 text-center">
+    
+    <h1 class="text-2xl font-bold text-[#333333] mb-4">Your Selections</h1>
 
     {#if $userData.mood}
-      <p class="mt-4 text-lg text-[#333333]">
+      <p class="text-lg text-[#333333] leading-relaxed">
         You are in <strong>{$userData.place}</strong>, the weather is <strong>{$userData.weather}</strong>,
         and you are feeling <strong class="text-[#FF6347]">{$userData.mood}</strong>.
       </p>
     {/if}
 
-    <h2 class="text-xl font-semibold mt-6 mb-4 text-[#FF6347]">Food Suggestions</h2>
+    <h2 class="text-xl font-semibold text-[#FF6347] mt-6 mb-4">Food Suggestions</h2>
 
     {#if isLoading}
-      <p class="mt-4 text-lg text-[#333333]">Loading food suggestions...</p>
+      <p class="text-lg text-[#333333]">Loading food suggestions...</p>
     {:else if foodSuggestions.length > 0}
       <div class="roulette-wrapper">
         <div class="roulette-container">
@@ -125,12 +115,18 @@
           {/if}
         </div>
 
-        <div class="mt-4 flex justify-center gap-4">
-          <button on:click={() => { spinWheel(); resetBlur(); }} class="px-4 py-2 bg-[#FF6347] text-white rounded-lg hover:bg-[#E25438] transition-colors">
-            Spin the Wheel!
+        <!-- ✅ Buttons with Fixed Sizes + Better Spacing -->
+        <div class="mt-6 flex flex-col md:flex-row justify-center gap-4 w-full">
+          <button 
+            on:click={() => { spinWheel(); resetBlur(); }} 
+            class="w-full md:w-44 px-6 py-3 text-lg md:text-xl bg-[#FF6347] text-white rounded-lg hover:bg-[#E25438] transition-all">
+            Spin!
           </button>
-          <button on:click={() => { getRandomFoodSuggestions(); resetBlur(); }} class="px-4 py-2 bg-[#98FF98] text-[#333333] rounded-lg hover:bg-[#89EE89] transition-colors">
-            Random Suggestions
+          
+          <button 
+            on:click={() => { getRandomFoodSuggestions(); resetBlur(); }} 
+            class="w-full md:w-44 px-6 py-3 text-lg md:text-xl bg-[#98FF98] text-[#333333] rounded-lg hover:bg-[#89EE89] transition-all">
+            Random
           </button>
         </div>
       </div>
@@ -146,7 +142,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 24px;
     text-align: center;
     position: relative;
   }
@@ -165,7 +161,6 @@
     overflow: hidden;
     transform-origin: center center;
     transition: transform 2s ease-out;
-    margin: 0 auto;
     background-color: #f8f8f8;
   }
 
@@ -193,7 +188,6 @@
     left: 50%;
     text-align: center;
     font-size: 16px;
-    line-height: 1.2;
     transform-origin: center;
     display: flex;
     justify-content: center;
@@ -201,7 +195,6 @@
   }
 
   .roulette-item span {
-    display: block;
     font-weight: bold;
     text-transform: uppercase;
     position: absolute;
@@ -225,16 +218,9 @@
     font-size: 18px;
     font-weight: bold;
     color: #333333;
-    z-index: 10;
     background-color: rgba(255, 255, 255, 0.8);
     padding: 8px 12px;
     border-radius: 4px;
-  }
-
-  .selected-food span {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333333;
   }
 
   button {
