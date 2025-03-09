@@ -15,6 +15,8 @@
    */
   let selectedFood = null;
   const minimumFoodItems = 9;
+  // Add a new state variable to track if suggestions are random
+  let isRandomSuggestions = false;
 
   async function fetchFoodData() {
     try {
@@ -79,6 +81,8 @@
         console.warn('Invalid food data format');
         getEnhancedRandomFoodSuggestions(); // Fallback to random suggestions if data format is invalid
       }
+      // Reset the random suggestions flag when fetching based on preferences
+      isRandomSuggestions = false;
     } catch (error) {
       console.error("Error fetching food data:", error);
       getEnhancedRandomFoodSuggestions(); // Fallback to random suggestions on error
@@ -183,6 +187,9 @@
         
         // Shuffle the final list to mix categories
         foodSuggestions = categorizedSuggestions.sort(() => Math.random() - 0.5);
+        
+        // Set the random suggestions flag to true
+        isRandomSuggestions = true;
       })
       .catch((error) => {
         console.error("Error fetching random food data:", error);
@@ -191,6 +198,8 @@
         foodSuggestions = Array(minimumFoodItems).fill().map(() => ({ 
           name: 'No Food Found'
         }));
+        // Set the random suggestions flag to true
+        isRandomSuggestions = true;
       });
   }
 
@@ -201,48 +210,50 @@
   }
 
   function spinWheel() {
-  if (isSpinning) return;
-  isSpinning = true;
+    if (isSpinning) return;
+    isSpinning = true;
 
-  // Calculate the rotation to ensure it's a smooth, longer spin
-  const rotation = Math.floor(Math.random() * 1000) + 2000; // Random rotation degree, bigger spin
-  const newSpinDegree = spinDegree + rotation;
+    // Calculate the rotation to ensure it's a smooth, longer spin
+    const rotation = Math.floor(Math.random() * 1000) + 2000; // Random rotation degree, bigger spin
+    const newSpinDegree = spinDegree + rotation;
 
-  // Apply the rotation
-  spinDegree = newSpinDegree;
+    // Apply the rotation
+    spinDegree = newSpinDegree;
 
-  // Spin for 3 seconds (you can adjust the duration here)
-  setTimeout(() => {
-    const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
-    selectedFood = foodSuggestions[randomIndex];
-
-    // Highlight the selected food after the spin is complete
-    foodSuggestions = foodSuggestions.map((food, index) => ({
-      ...food,
-      isHighlighted: index === randomIndex,
-    }));
-
-    // Set a delay to show the selected food after the spin finishes
+    // Spin for 3 seconds (you can adjust the duration here)
     setTimeout(() => {
-      isSpinning = false;
-      isBlurred = true;
-    }, 500); // A slight delay (500ms) after the spin finishes before showing the result
+      const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
+      selectedFood = foodSuggestions[randomIndex];
 
-  }, 3000); // Spin for 3 seconds
-}
+      // Highlight the selected food after the spin is complete
+      foodSuggestions = foodSuggestions.map((food, index) => ({
+        ...food,
+        isHighlighted: index === randomIndex,
+      }));
 
+      // Set a delay to show the selected food after the spin finishes
+      setTimeout(() => {
+        isSpinning = false;
+        isBlurred = true;
+      }, 500); // A slight delay (500ms) after the spin finishes before showing the result
 
-
+    }, 3000); // Spin for 3 seconds
+  }
 
   function resetBlur() {
     selectedFood = null;
     isBlurred = false;
   }
 
+  // Function to handle "Surprise Me!" button click
+  function handleSurprise() {
+    getEnhancedRandomFoodSuggestions();
+    resetBlur();
+  }
+
   // Add reactive statement to update food suggestions when user preferences change
   // @ts-ignore
- // @ts-ignore
-   $: if ($userData.mood && $userData.weather) {
+  $: if ($userData.mood && $userData.weather) {
     fetchFoodData();
   }
 
@@ -261,14 +272,24 @@
     
     <h1 class="text-2xl font-extrabold text-[#2E4057] mb-4">Your Preferences</h1>
 
-    {#if $userData.mood}
+    {#if $userData.mood && !isRandomSuggestions}
       <p class="text-lg text-[#2E4057] leading-relaxed">
         You are currently in <strong>{$userData.place}</strong> with <strong>{$userData.weather}</strong> weather,  
         feeling <strong class="text-[#F67280]">{$userData.mood}</strong>.
       </p>
+    {:else if isRandomSuggestions}
+      <p class="text-lg text-[#2E4057] leading-relaxed">
+        Showing <strong class="text-[#F67280]">random suggestions</strong> regardless of your preferences.
+      </p>
     {/if}
 
-    <h2 class="text-xl font-bold text-[#F67280] mt-6 mb-4">Recommended Foods</h2>
+    <h2 class="text-xl font-bold text-[#F67280] mt-6 mb-4">
+      {#if isRandomSuggestions}
+        Random Food Suggestions
+      {:else}
+        Recommended Foods
+      {/if}
+    </h2>
 
     {#if isLoading}
       <p class="text-lg text-[#2E4057]">Finding the best food options for you...</p>
@@ -304,7 +325,7 @@
           </button>
           
           <button 
-            on:click={() => { getEnhancedRandomFoodSuggestions(); resetBlur(); }} 
+            on:click={handleSurprise} 
             class="flex-1 px-6 py-3 text-lg font-bold bg-[#6C5B7B] text-white rounded-lg hover:bg-[#5D4C6C] transition-all min-w-0 sm:max-w-xs">
             🔀 Surprise Me!
           </button>
@@ -313,6 +334,10 @@
       </div>
     {:else}
       <p class="mt-4 text-lg text-[#F67280]">No food matches your preferences. Try shuffling!</p>
+    {/if}
+    
+    {#if isRandomSuggestions}
+      <p class="mt-4 text-sm italic text-[#6C5B7B]">Click "Surprise Me!" again for new random suggestions.</p>
     {/if}
   </div>
 </div>
