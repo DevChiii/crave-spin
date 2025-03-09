@@ -201,24 +201,38 @@
   }
 
   function spinWheel() {
-    if (isSpinning) return;
-    isSpinning = true;
-    const rotation = Math.floor(Math.random() * 1000) + 1000;
-    spinDegree += rotation;
+  if (isSpinning) return;
+  isSpinning = true;
 
+  // Calculate the rotation to ensure it's a smooth, longer spin
+  const rotation = Math.floor(Math.random() * 1000) + 2000; // Random rotation degree, bigger spin
+  const newSpinDegree = spinDegree + rotation;
+
+  // Apply the rotation
+  spinDegree = newSpinDegree;
+
+  // Spin for 3 seconds (you can adjust the duration here)
+  setTimeout(() => {
+    const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
+    selectedFood = foodSuggestions[randomIndex];
+
+    // Highlight the selected food after the spin is complete
+    foodSuggestions = foodSuggestions.map((food, index) => ({
+      ...food,
+      isHighlighted: index === randomIndex,
+    }));
+
+    // Set a delay to show the selected food after the spin finishes
     setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
-      selectedFood = foodSuggestions[randomIndex];
       isSpinning = false;
-
-      foodSuggestions = foodSuggestions.map((food, index) => ({
-        ...food,
-        isHighlighted: index === randomIndex,
-      }));
-
       isBlurred = true;
-    }, 2000);
-  }
+    }, 500); // A slight delay (500ms) after the spin finishes before showing the result
+
+  }, 3000); // Spin for 3 seconds
+}
+
+
+
 
   function resetBlur() {
     selectedFood = null;
@@ -325,17 +339,14 @@
   position: relative;
   overflow: hidden;
   transform-origin: center center;
-  transition: transform 2s ease-out, box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+  transition: transform 3s ease-out, box-shadow 0.3s ease-in-out; /* Adjusted to 3s for smoother spin */
   background: linear-gradient(135deg, #FFB6C1, #FFD700); /* Soft pastel pink to a light candy yellow */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .roulette-wheel:hover {
-  transform: scale(1.05); /* Slight zoom on hover */
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
 }
-
-
 
   .roulette-items {
     position: absolute;
