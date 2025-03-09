@@ -2,30 +2,30 @@
   import { userData } from '../../lib/stores/store.js';
   import { onMount } from 'svelte';
 
-  // @ts-ignore
-  /**
-	 * @type {any[]}
-	 */
   let foodSuggestions = [];
   let isLoading = true;
   let spinDegree = 0;
   let isSpinning = false;
   let isBlurred = false;
-  // @ts-ignore
-  /**
-	 * @type {{ name: any; } | null}
-	 */
   let selectedFood = null;
   const minimumFoodItems = 9;
 
   async function fetchFoodData() {
     try {
       const response = await fetch('/data/foodDatabase.json');
+      if (!response.ok) {
+        throw new Error('Failed to fetch food data');
+      }
       const foodDatabase = await response.json();
-      // @ts-ignore
-      foodSuggestions = foodDatabase.foods.filter((food) =>
-        food.moods.includes($userData.mood) && food.weather.includes($userData.weather)
-      );
+
+      // Validate and sanitize food data before using it
+      if (Array.isArray(foodDatabase.foods)) {
+        foodSuggestions = foodDatabase.foods.filter((food) =>
+          food.moods?.includes($userData.mood) && food.weather?.includes($userData.weather)
+        );
+      } else {
+        console.warn('Invalid food data format');
+      }
     } catch (error) {
       console.error("Error fetching food data:", error);
     } finally {
@@ -41,7 +41,12 @@
 
   function getRandomFoodSuggestions() {
     fetch('/data/foodDatabase.json')
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch random food data');
+        }
+        return response.json();
+      })
       .then((foodDatabase) => {
         let shuffledFoodSuggestions = foodDatabase.foods.sort(() => Math.random() - 0.5);
         while (shuffledFoodSuggestions.length < minimumFoodItems) {
@@ -63,11 +68,9 @@
 
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
-      // @ts-ignore
       selectedFood = foodSuggestions[randomIndex];
       isSpinning = false;
 
-      // @ts-ignore
       foodSuggestions = foodSuggestions.map((food, index) => ({
         ...food,
         isHighlighted: index === randomIndex,
