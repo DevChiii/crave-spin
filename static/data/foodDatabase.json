@@ -137,7 +137,7 @@
       ]
     },
     {
-      "name": "Home-Cooked Dishes",
+      "name": "Sisig",
       "moods": ["happy"],
       "weather": ["cold"],
       "combinationMatches": [
@@ -217,7 +217,7 @@
       ]
     },
     {
-      "name": "Mashed Potatoes",
+      "name": "Kaldereta",
       "moods": ["sad"],
       "weather": ["hot"],
       "combinationMatches": [
@@ -225,7 +225,7 @@
       ]
     },
     {
-      "name": "Water with Ice",
+      "name": "Hopia",
       "moods": ["sad"],
       "weather": ["hot"],
       "combinationMatches": [
@@ -249,7 +249,7 @@
       ]
     },
     {
-      "name": "Ginataang Bilo-Bilo",
+      "name": "Bilo-Bilo",
       "moods": ["sad"],
       "weather": ["hot"],
       "combinationMatches": [
@@ -305,7 +305,7 @@
       ]
     },
     {
-      "name": "Pasta Dishes",
+      "name": "Spaghetti",
       "moods": ["sad"],
       "weather": ["cold"],
       "combinationMatches": [
@@ -329,7 +329,7 @@
       ]
     },
     {
-      "name": "Vegetables Dishes",
+      "name": "Diet Muna",
       "moods": ["sad"],
       "weather": ["cold"],
       "combinationMatches": [
@@ -505,7 +505,7 @@
       ]
     },
     {
-      "name": "Korean Foods",
+      "name": "Samgyup",
       "moods": ["adventurous"],
       "weather": ["cold"],
       "combinationMatches": [
