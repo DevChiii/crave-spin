@@ -1,22 +1,22 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';
-    // @ts-ignore
-    import { goto } from '$app/navigation';
     
-    let email = '';
-    let message = '';
-    let errorMessage = '';
-    let isSubmitting = false;
-    let isSuccess = false;
-    let csrfToken = '';
-    let honeypot = ''; // Honeypot field to catch bots
-    let submitAttempts = 0;
-    let lastSubmitTime = 0;
+    let email: string = '';
+    let message: string = '';
+    let errorMessage: string = '';
+    let isSubmitting: boolean = false;
+    let isSuccess: boolean = false;
+    let csrfToken: string = '';
+    let honeypot: string = ''; // Honeypot field to catch bots
+    let submitAttempts: number = 0;
+    let lastSubmitTime: number = 0;
+    let formspreeConfirmationCode: string = ''; // To store confirmation code
     
     // This would come from your environment variables in SvelteKit
+    // Added fallback URL in case the environment variable isn't set
     const formspreeUrl = import.meta.env.VITE_FORMSPREE_URL;
-    
+
     onMount(() => {
         if (browser) {
             // Generate or fetch CSRF token
@@ -36,30 +36,37 @@
             } catch (e) {
                 console.error('Local storage not available:', e);
             }
+            
+            // Check URL for Formspree confirmation
+            const urlParams = new URLSearchParams(window.location.search);
+            formspreeConfirmationCode = urlParams.get('formspree_form_submission') || '';
+            if (formspreeConfirmationCode) {
+                isSuccess = true;
+                // Clear the URL parameter without refreshing the page
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
         }
     });
     
-    function generateCSRFToken() {
+    function generateCSRFToken(): string {
         // In production, this would be handled by your server
         return 'csrf-' + Math.random().toString(36).substring(2) + Date.now();
     }
     
-    // @ts-ignore
-    function validateEmail(email) {
+    function validateEmail(email: string): boolean {
         // More comprehensive email validation
         const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         return re.test(email);
     }
     
-    // @ts-ignore
-    function sanitizeInput(input) {
+    function sanitizeInput(input: string): string {
         // More thorough sanitization
         if (!input) return '';
         
+        // Fixed TypeScript error by ensuring we always return a string
         return String(input)
-            // @ts-ignore
-            .replace(/[&<>"'`=\/]/g, function(match) {
-                return {
+            .replace(/[&<>"'`=\/]/g, (match: string): string => {
+                const replacements: Record<string, string> = {
                     '&': '&amp;',
                     '<': '&lt;',
                     '>': '&gt;',
@@ -68,13 +75,13 @@
                     '/': '&#x2F;',
                     '`': '&#x60;',
                     '=': '&#x3D;'
-                }[match];
+                };
+                return replacements[match] || match;
             })
             .trim();
     }
     
-    // @ts-ignore
-    function isSpam(text) {
+    function isSpam(text: string): boolean {
         // Basic spam detection - check for spam indicators
         const spamPatterns = [
             /buy now/i, 
@@ -88,8 +95,15 @@
         return spamPatterns.some(pattern => pattern.test(text));
     }
     
-    // @ts-ignore
-    async function handleSubmit(event) {
+    function verifyFormspreeUrl(): boolean {
+        if (!formspreeUrl) return false;
+        
+        // Check if it's a valid Formspree URL
+        const formspreePattern = /^https:\/\/formspree\.io\/f\/[a-zA-Z0-9]+$/;
+        return formspreePattern.test(formspreeUrl);
+    }
+    
+    async function handleSubmit(event: Event): Promise<void> {
         event.preventDefault();
         
         // Clear previous errors
@@ -112,8 +126,7 @@
         // Check honeypot - if filled, likely a bot
         if (honeypot) {
             console.log('Bot detected via honeypot');
-            // Pretend success but don't actually submit
-            isSuccess = true;
+            isSuccess = true; // Fake success
             return;
         }
         
@@ -130,7 +143,7 @@
         
         // Check message length
         if (message.length < 5) {
-            errorMessage = 'Message is too short.';
+            errorMessage = 'Message is too short. Please provide more details.';
             return;
         }
         
@@ -142,6 +155,13 @@
         // Check for spam content
         if (isSpam(message) || isSpam(email)) {
             errorMessage = 'Your message has been flagged as potential spam. Please revise.';
+            return;
+        }
+        
+        // Verify Formspree URL is correctly formatted
+        if (!verifyFormspreeUrl()) {
+            errorMessage = 'Form submission service not properly configured. Please check your Formspree URL.';
+            console.error('Invalid Formspree URL:', formspreeUrl);
             return;
         }
         
@@ -165,58 +185,81 @@
                     console.error('Could not save to local storage:', e);
                 }
             }
+
+            // Create FormData for Formspree (their preferred submission method)
+            const formData = new FormData();
+            formData.append('email', sanitizedEmail);
+            formData.append('message', sanitizedMessage);
+            formData.append('_csrf', csrfToken);
             
             // In production, use fetch to submit the form
             const response = await fetch(formspreeUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': csrfToken,
+                    'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest' // Helps prevent CSRF
                 },
-                body: JSON.stringify({
-                    email: sanitizedEmail,
-                    message: sanitizedMessage,
-                    timestamp: new Date().toISOString(),
-                    _csrf: csrfToken
-                }),
-                credentials: 'same-origin' // Important for CSRF protection
+                body: formData,
+                mode: 'cors' // Add CORS mode for cross-origin requests
             });
             
+            // Log complete response for debugging
+            console.log('Formspree response status:', response.status);
+            const responseData = await response.json().catch(() => ({}));
+            console.log('Formspree response:', responseData);
+            
             if (!response.ok) {
-                const data = await response.json().catch(() => ({}));
-                throw new Error(data.message || 'Form submission failed');
+                throw new Error(responseData.error || responseData.message || `Form submission failed: ${response.status} ${response.statusText}`);
             }
             
-            isSuccess = true;
-            // Reset attempts after successful submission
-            submitAttempts = 0;
-            if (browser) {
-                try {
-                    localStorage.setItem('submitAttempts', '0');
-                } catch (e) {
-                    console.error('Could not save to local storage:', e);
+            // Verify response contains the expected success indicators from Formspree
+            if (responseData.ok === true || responseData.success === true || responseData.next) {
+                console.log('Form submitted successfully:', responseData);
+                isSuccess = true;
+                
+                // Reset attempts after successful submission
+                submitAttempts = 0;
+                if (browser) {
+                    try {
+                        localStorage.setItem('submitAttempts', '0');
+                    } catch (e) {
+                        console.error('Could not save to local storage:', e);
+                    }
                 }
+            } else {
+                throw new Error('Received response from Formspree but success confirmation was missing');
             }
-        } catch (error) {
-            errorMessage = 'An error occurred. Please try again later.';
+        } catch (error: unknown) {
             console.error('Form submission error:', error);
+            
+            // Type guard to handle error properly
+            const errorMsg = error instanceof Error 
+                ? error.message 
+                : 'Unknown error occurred';
+            
+            // More descriptive error message with debugging info
+            if (errorMsg.includes('NetworkError') || errorMsg.includes('Failed to fetch')) {
+                errorMessage = 'Network error: Could not connect to the form service. Please check your internet connection and try again.';
+            } else if (errorMsg.includes('URL is not configured') || errorMsg.includes('not properly configured')) {
+                errorMessage = 'Configuration error: The form submission service is not properly configured. Please check if your Formspree form ID is correct.';
+            } else {
+                errorMessage = `Error: ${errorMsg || 'Unknown error occurred. Please try again later.'}`;
+            }
         } finally {
             isSubmitting = false;
         }
     }
     
-    function resetForm() {
+    function resetForm(): void {
         email = '';
         message = '';
         honeypot = '';
         isSuccess = false;
         errorMessage = '';
-        // Refresh CSRF token for new submission
         csrfToken = generateCSRFToken();
     }
 </script>
-  
+
 <div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#F8B195] to-[#F67280] p-6">
     <div class="w-full max-w-lg bg-white bg-opacity-95 rounded-lg shadow-lg p-6 text-center">
         <h1 class="text-2xl font-extrabold text-[#2E4057] mb-4">Contact Us</h1>
@@ -228,12 +271,14 @@
         
             <form on:submit={handleSubmit} class="space-y-6">
                 <input type="hidden" name="_csrf" value={csrfToken} />
+                <!-- Add Formspree specific redirect field -->
+                <input type="hidden" name="_next" value={browser ? window.location.href + '?formspree_form_submission=success' : ''} />
                 
                 <!-- Honeypot field - invisible to humans but bots will fill it -->
                 <div class="hidden" aria-hidden="true">
                     <input 
                         type="text" 
-                        name="website" 
+                        name="_gotcha" 
                         bind:value={honeypot} 
                         tabindex="-1" 
                         autocomplete="off" 
@@ -275,6 +320,13 @@
                 {#if errorMessage}
                     <p class="text-[#F67280] font-medium">{errorMessage}</p>
                 {/if}
+                
+                <!-- Add form diagnostics info for debugging -->
+                {#if !formspreeUrl || !verifyFormspreeUrl()}
+                    <p class="text-[#F67280] text-sm font-medium">
+                        Warning: Formspree URL not properly configured. Check your environment variables.
+                    </p>
+                {/if}
           
                 <div class="flex flex-col md:flex-row justify-center gap-4 w-full mt-6">
                     <button 
@@ -300,16 +352,19 @@
             </form>
         {:else}
             <div class="py-8 flex flex-col items-center">
-                <div class="w-16 h-16 bg-[#F67280] rounded-full flex items-center justify-center mb-4">
-                    <span class="text-white text-2xl">✓</span>
-                </div>
-                <h2 class="text-xl font-bold text-[#F67280] mb-2">Message Sent!</h2>
-                <p class="text-lg text-[#2E4057] mb-6">Thank you for reaching out to us.</p>
+                <p class="text-xl font-semibold text-[#F67280] mb-4">
+                    Your message has been sent successfully! Thank you for reaching out.
+                </p>
+                
+                <p class="text-md text-[#2E4057] mb-6">
+                    We'll respond to your email as soon as possible. If you don't receive a confirmation email from Formspree, please check your spam folder.
+                </p>
+                
                 <button 
                     on:click={resetForm}
-                    class="px-4 py-2 text-md md:text-lg font-bold bg-[#F67280] text-white rounded-lg hover:bg-[#E56270] transition-all"
+                    class="px-4 py-2 bg-[#F67280] text-white rounded-full hover:bg-[#F8B195] transition-all"
                 >
-                    Send Another Message
+                    Send another message
                 </button>
             </div>
         {/if}
