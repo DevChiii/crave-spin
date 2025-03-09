@@ -2,19 +2,17 @@
   import { userData } from '../../lib/stores/store.js';
   import { onMount } from 'svelte';
 
-  // @ts-ignore
   /**
-	 * @type {any[]}
-	 */
+   * @type {any[]}
+   */
   let foodSuggestions = [];
   let isLoading = true;
   let spinDegree = 0;
   let isSpinning = false;
   let isBlurred = false;
-  // @ts-ignore
   /**
-	 * @type {{ name: any; } | null}
-	 */
+   * @type {{ name: any; } | null}
+   */
   let selectedFood = null;
   const minimumFoodItems = 9;
 
@@ -28,27 +26,73 @@
 
       // Validate and sanitize food data before using it
       if (Array.isArray(foodDatabase.foods)) {
+        // Check for combination matches first (foods that match specific mood+weather combinations)
+        // This assumes your food data has a combinationMatches array or similar structure
         // @ts-ignore
-        foodSuggestions = foodDatabase.foods.filter((food) =>
-          food.moods?.includes($userData.mood) && food.weather?.includes($userData.weather)
-        );
+        let combinationMatches = foodDatabase.foods.filter((food) => {
+          if (!food.combinationMatches) return false;
+          
+          // Check if this food has a match for current mood+weather combination
+          // @ts-ignore
+          return food.combinationMatches.some(combo => 
+            combo.mood === $userData.mood && combo.weather === $userData.weather
+          );
+        });
+        
+        // If we have enough combination matches, use those
+        if (combinationMatches.length >= minimumFoodItems) {
+          foodSuggestions = combinationMatches.slice(0, minimumFoodItems);
+        } 
+        // Otherwise, try to find foods that match both mood AND weather separately
+        else {
+          // @ts-ignore
+          let exactMatches = foodDatabase.foods.filter((food) =>
+            food.moods?.includes($userData.mood) && food.weather?.includes($userData.weather)
+          );
+          
+          // If we still don't have enough, add foods that match at least one criteria
+          if ((combinationMatches.length + exactMatches.length) < minimumFoodItems) {
+            // @ts-ignore
+            let partialMatches = foodDatabase.foods.filter((food) =>
+              food.moods?.includes($userData.mood) || food.weather?.includes($userData.weather)
+            );
+            
+            // Remove duplicates (foods already in combinationMatches or exactMatches)
+            const existingNames = [...combinationMatches, ...exactMatches].map(food => food.name);
+            partialMatches = partialMatches.filter(
+              // @ts-ignore
+              (item) => !existingNames.includes(item.name)
+            );
+            
+            // Combine all matches, prioritizing combination matches first, then exact matches, then partial
+            foodSuggestions = [
+              ...combinationMatches, 
+              ...exactMatches, 
+              ...partialMatches
+            ].slice(0, minimumFoodItems);
+          } else {
+            // Just combinationMatches + exactMatches is enough
+            foodSuggestions = [...combinationMatches, ...exactMatches].slice(0, minimumFoodItems);
+          }
+        }
       } else {
         console.warn('Invalid food data format');
+        getEnhancedRandomFoodSuggestions(); // Fallback to random suggestions if data format is invalid
       }
     } catch (error) {
       console.error("Error fetching food data:", error);
+      getEnhancedRandomFoodSuggestions(); // Fallback to random suggestions on error
     } finally {
       isLoading = false;
       if (foodSuggestions.length < minimumFoodItems) {
-        const blankSlots = minimumFoodItems - foodSuggestions.length;
-        for (let i = 0; i < blankSlots; i++) {
-          foodSuggestions.push({ name: 'No Food Found' });
-        }
+        // If we still don't have enough suggestions, add some random ones
+        getRandomFoodSuggestionsToFill(minimumFoodItems - foodSuggestions.length);
       }
     }
   }
 
-  function getRandomFoodSuggestions() {
+  // @ts-ignore
+  function getRandomFoodSuggestionsToFill(count) {
     fetch('/data/foodDatabase.json')
       .then((response) => {
         if (!response.ok) {
@@ -57,16 +101,97 @@
         return response.json();
       })
       .then((foodDatabase) => {
-        let shuffledFoodSuggestions = foodDatabase.foods.sort(() => Math.random() - 0.5);
-        while (shuffledFoodSuggestions.length < minimumFoodItems) {
-          shuffledFoodSuggestions.push({ name: 'No Food Found' });
+        // Filter out foods already in our suggestions
+        const existingNames = foodSuggestions.map(food => food.name);
+        // @ts-ignore
+        let availableFoods = foodDatabase.foods.filter(food => !existingNames.includes(food.name));
+        
+        // Shuffle and take what we need
+        let additionalFoods = availableFoods
+          .sort(() => Math.random() - 0.5)
+          .slice(0, count);
+        
+        // If we don't have enough unique foods, add placeholders
+        while (additionalFoods.length < count) {
+          additionalFoods.push({ name: 'No Food Found' });
         }
-        shuffledFoodSuggestions = shuffledFoodSuggestions.slice(0, minimumFoodItems);
-        foodSuggestions = [...shuffledFoodSuggestions];
+        
+        // Add these to our existing suggestions
+        foodSuggestions = [...foodSuggestions, ...additionalFoods];
       })
       .catch((error) => {
         console.error("Error fetching random food data:", error);
+        // Add placeholders if we can't get random foods
+        // @ts-ignore
+        const placeholders = Array(count).fill().map(() => ({ name: 'No Food Found' }));
+        foodSuggestions = [...foodSuggestions, ...placeholders];
       });
+  }
+
+  function getEnhancedRandomFoodSuggestions() {
+    fetch('/data/foodDatabase.json')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch random food data');
+        }
+        return response.json();
+      })
+      .then((foodDatabase) => {
+        // Create different categories of food suggestions
+        let categorizedSuggestions = [];
+        
+        // 1. Include some seasonal foods based on current month
+        const currentMonth = new Date().getMonth();
+        const seasonalFoods = foodDatabase.foods.filter(food => 
+          food.seasonality && food.seasonality.includes(currentMonth)
+        );
+        if (seasonalFoods.length > 0) {
+          categorizedSuggestions.push(...seasonalFoods.slice(0, 3));
+        }
+        
+        // 2. Include some popular/trending foods
+        const popularFoods = foodDatabase.foods.filter(food => food.popularity && food.popularity > 8);
+        if (popularFoods.length > 0) {
+          categorizedSuggestions.push(...popularFoods.sort(() => Math.random() - 0.5).slice(0, 2));
+        }
+        
+        // 3. Include some comfort foods if user mood indicates they might need it
+        if ($userData.mood && ['sad', 'stressed', 'tired', 'anxious'].includes($userData.mood.toLowerCase())) {
+          const comfortFoods = foodDatabase.foods.filter(food => food.comfort && food.comfort > 7);
+          if (comfortFoods.length > 0) {
+            categorizedSuggestions.push(...comfortFoods.sort(() => Math.random() - 0.5).slice(0, 2));
+          }
+        }
+        
+        // 4. Include some completely random foods for variety
+        let randomFoods = foodDatabase.foods
+          .filter(food => !categorizedSuggestions.some(s => s.name === food.name))
+          .sort(() => Math.random() - 0.5);
+        
+        // Fill the remaining slots with random foods
+        const remainingSlots = minimumFoodItems - categorizedSuggestions.length;
+        categorizedSuggestions.push(...randomFoods.slice(0, remainingSlots));
+        
+        // Ensure we have minimum number of food suggestions
+        while (categorizedSuggestions.length < minimumFoodItems) {
+          categorizedSuggestions.push({ name: 'Chef\'s Surprise' });
+        }
+        
+        // Shuffle the final list to mix categories
+        foodSuggestions = categorizedSuggestions.sort(() => Math.random() - 0.5);
+      })
+      .catch((error) => {
+        console.error("Error fetching random food data:", error);
+        // Fill with placeholders on error
+        foodSuggestions = Array(minimumFoodItems).fill().map(() => ({ 
+          name: 'No Food Found'
+        }));
+      });
+  }
+
+  // Replace the old getRandomFoodSuggestions function with this enhanced version
+  function getRandomFoodSuggestions() {
+    getEnhancedRandomFoodSuggestions();
   }
 
   function spinWheel() {
@@ -77,11 +202,9 @@
 
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
-      // @ts-ignore
       selectedFood = foodSuggestions[randomIndex];
       isSpinning = false;
 
-      // @ts-ignore
       foodSuggestions = foodSuggestions.map((food, index) => ({
         ...food,
         isHighlighted: index === randomIndex,
@@ -96,8 +219,19 @@
     isBlurred = false;
   }
 
-  onMount(() => {
+  // Add reactive statement to update food suggestions when user preferences change
+  // @ts-ignore
+  $: if ($userData.mood && $userData.weather) {
     fetchFoodData();
+  }
+
+  onMount(() => {
+    if ($userData.mood && $userData.weather) {
+      fetchFoodData();
+    } else {
+      // If no user preferences are set yet, show random suggestions
+      getEnhancedRandomFoodSuggestions();
+    }
   });
 </script>
 
@@ -148,7 +282,7 @@
           </button>
           
           <button 
-            on:click={() => { getRandomFoodSuggestions(); resetBlur(); }} 
+            on:click={() => { getEnhancedRandomFoodSuggestions(); resetBlur(); }} 
             class="w-full md:w-36 px-4 py-2 text-md md:text-lg font-bold bg-[#6C5B7B] text-white rounded-lg hover:bg-[#5D4C6C] transition-all">
             🔀 Shuffle
           </button>

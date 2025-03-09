@@ -47,7 +47,7 @@
     isLoading = true;
     setTimeout(() => {
       isLoading = false;
-      goto('/roulette');
+      goto('/spinner');
     }, 1000);
   }
 
