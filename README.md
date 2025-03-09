@@ -21,6 +21,7 @@ CraveSpin is a fun and casual web app designed to help people who constantly cra
 - **SvelteKit**: Framework for building the app with Svelte.
 - **Tailwind CSS**: For styling the app and making it responsive.
 - **JavaScript**: For handling app logic and interactivity.
+- **AI Tools**: For debugging.
 - **Vercel**: For deploying the app.
 
 ## Getting Started

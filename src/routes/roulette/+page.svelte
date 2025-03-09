@@ -2,11 +2,19 @@
   import { userData } from '../../lib/stores/store.js';
   import { onMount } from 'svelte';
 
+  // @ts-ignore
+  /**
+	 * @type {any[]}
+	 */
   let foodSuggestions = [];
   let isLoading = true;
   let spinDegree = 0;
   let isSpinning = false;
   let isBlurred = false;
+  // @ts-ignore
+  /**
+	 * @type {{ name: any; } | null}
+	 */
   let selectedFood = null;
   const minimumFoodItems = 9;
 
@@ -20,6 +28,7 @@
 
       // Validate and sanitize food data before using it
       if (Array.isArray(foodDatabase.foods)) {
+        // @ts-ignore
         foodSuggestions = foodDatabase.foods.filter((food) =>
           food.moods?.includes($userData.mood) && food.weather?.includes($userData.weather)
         );
@@ -68,9 +77,11 @@
 
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * foodSuggestions.length);
+      // @ts-ignore
       selectedFood = foodSuggestions[randomIndex];
       isSpinning = false;
 
+      // @ts-ignore
       foodSuggestions = foodSuggestions.map((food, index) => ({
         ...food,
         isHighlighted: index === randomIndex,
