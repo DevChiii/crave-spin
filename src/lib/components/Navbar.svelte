@@ -2,13 +2,13 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
 
-  // Navbar items
   const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Roulette', path: '/roulette' },
-    { name: 'Contact', path: '/contact' }
-  ];
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about' },
+  { name: 'Roulette', path: '/roulette' },
+  { name: 'Contact', path: '/contact' }
+];
+
 
   let isMenuOpen = false;
   let scrolled = false;
