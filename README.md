@@ -10,11 +10,20 @@ CraveSpin is a fun and casual web app designed to help people who constantly cra
 - **Roulette Spin**: A fun and interactive roulette wheel to help you pick a food option randomly.
 - **Shuffle Button**: If you want a completely new set of food options, simply shuffle them.
 
+---
+
 ## How It Works
 
-1. **Select your preferences**: Choose your mood, weather, and location on the homepage.
-2. **Spin the roulette**: Once your preferences are set, click the "Spin" button to randomly select a food option.
-3. **View your food**: Your selected food option will be displayed at the center of the roulette wheel.
+1. **Select your preferences**  
+   Choose your mood, weather, and location on the homepage.
+
+2. **Spin the roulette**  
+   Once your preferences are set, click the "Spin" button to randomly select a food option.
+
+3. **View your food**  
+   Your selected food option will be displayed at the center of the roulette wheel.
+
+---
 
 ## Technologies Used
 
@@ -24,16 +33,53 @@ CraveSpin is a fun and casual web app designed to help people who constantly cra
 - **AI Tools**: For debugging.
 - **Vercel**: For deploying the app.
 
+---
+
 ## Getting Started
 
 ### Prerequisites
 
 Make sure you have the following installed:
+
 - **Node.js**: [Download here](https://nodejs.org/)
 - **Git**: [Download here](https://git-scm.com/)
 
+---
+
 ### Clone the Repository
 
-```bash
-git clone https://github.com/yourusername/CraveSpin.git
-cd CraveSpin
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/CraveSpin.git
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd CraveSpin
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+
+4. Run the app locally:
+
+   ```bash
+   npm run dev
+
+5. Visit http://localhost:3000 in your browser to view the app locally.
+
+## Deployment
+
+To deploy the app on Vercel, follow these steps:
+
+1. Push your repository to GitHub.
+2. Create a Vercel account and link your GitHub repository.
+3. Vercel will automatically deploy your app.
+
+---
+
+## Support the Project
+
+CraveSpin is a free-to-use project, but if you'd like to show your support and help keep the project going, consider buying me a coffee! Your contributions are greatly appreciated and help improve the app.
