@@ -456,6 +456,16 @@
                             <li>By submitting this form, you grant us permission to respond to your inquiry via the email you've provided.</li>
                         </ul>
                         
+                        <h3 class="text-lg font-semibold text-[#2E4057] pt-4">Intellectual Property</h3>
+                        <p>
+                            All content created by CraveSpin, including original text, graphics, logos, and code developed for the app, is owned by CraveSpin or its respective creators and is protected under applicable copyright and intellectual property laws.
+                        </p>
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li>Third-party software, such as SvelteKit, and AI-generated code, text, and graphics are used in accordance with their respective licenses.</li>
+                            <li>While CraveSpin retains ownership of its app content and design, the use of third-party software and AI-generated elements is subject to their respective terms and licenses.</li>
+                            <li>You may not reproduce, distribute, or create derivative works of CraveSpin's original content without our express permission.</li>
+                        </ul>
+                        
                         <h3 class="text-lg font-semibold text-[#2E4057] pt-4">Privacy Policy</h3>
                         <p>
                             Here's how we handle your information:
