@@ -39,7 +39,7 @@
 <nav class={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#F5F5DC] shadow-md py-2' : 'bg-transparent py-4'}`}>
   <div class="container mx-auto px-6 flex justify-between items-center">
     <!-- Logo -->
-    <a href="/" class="text-[#FF6347] text-2xl font-bold flex items-center">
+    <a href="/" class="text-[#FF6347] text-2xl font-extrabold flex items-center tracking-wide">
       <span>CraveSpin</span>
     </a>
 
@@ -48,7 +48,7 @@
       {#each navItems as item}
         <a 
           href={item.path} 
-          class={`relative text-lg transition-colors duration-300 ${$page.url.pathname === item.path ? 'text-[#FF6347] font-medium' : 'text-[#333333] hover:text-[#FFA500]'}`}
+          class={`relative text-lg font-medium transition-colors duration-300 ${$page.url.pathname === item.path ? 'text-[#FF6347] font-semibold' : 'text-[#333333] hover:text-[#FFA500]'}`}
         >
           {item.name}
           {#if $page.url.pathname === item.path}
@@ -97,7 +97,7 @@
         {#each navItems as item}
           <a 
             href={item.path} 
-            class={`py-2 px-4 rounded-md transition-colors duration-300 ${$page.url.pathname === item.path ? 'bg-[#FF6347] text-[#F5F5DC] font-medium' : 'text-[#333333] hover:bg-[#FFA500] hover:text-[#F5F5DC]'}`}
+            class={`py-2 px-4 rounded-md text-lg font-medium transition-colors duration-300 ${$page.url.pathname === item.path ? 'bg-[#FF6347] text-[#F5F5DC] font-semibold' : 'text-[#333333] hover:bg-[#FFA500] hover:text-[#F5F5DC]'}`}
             on:click={closeMenu}
           >
             {item.name}
