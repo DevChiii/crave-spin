@@ -3,12 +3,11 @@
   import { onMount } from 'svelte';
 
   const navItems = [
-  { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
-  { name: 'Roulette', path: '/roulette' },
-  { name: 'Contact', path: '/contact' }
-];
-
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Roulette', path: '/roulette' },
+    { name: 'Contact', path: '/contact' }
+  ];
 
   let isMenuOpen = false;
   let scrolled = false;
@@ -49,7 +48,7 @@
       {#each navItems as item}
         <a 
           href={item.path} 
-          class={`relative text-lg transition-colors duration-300 ${$page.url.pathname === item.path ? 'text-[#FF6347] font-medium' : 'text-[#333] hover:text-[#FFA500]'}`}
+          class={`relative text-lg transition-colors duration-300 ${$page.url.pathname === item.path ? 'text-[#FF6347] font-medium' : 'text-[#333333] hover:text-[#FFA500]'}`}
         >
           {item.name}
           {#if $page.url.pathname === item.path}
@@ -80,11 +79,11 @@
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
-      class="fixed inset-0 bg-[#fa9e53] bg-opacity-30 backdrop-blur-lg z-40"
+      class="fixed inset-0 bg-[#FF6347] bg-opacity-30 backdrop-blur-lg z-40 transition-all duration-500"
       on:click={closeMenu}
     ></div>
 
-    <div class="fixed top-0 right-0 w-64 h-full bg-[#F5F5DC] z-50 transform transition-transform duration-300 ease-in-out">
+    <div class="fixed top-0 right-0 w-64 h-full bg-[#F5F5DC] z-50 transform transition-transform duration-500 ease-in-out">
       <div class="flex justify-end p-4">
         <!-- svelte-ignore a11y_consider_explicit_label -->
         <button class="text-[#FF6347]" on:click={closeMenu}>
@@ -98,7 +97,7 @@
         {#each navItems as item}
           <a 
             href={item.path} 
-            class={`py-2 px-4 rounded-md transition-colors duration-300 ${$page.url.pathname === item.path ? 'bg-[#FF6347] text-[#F5F5DC] font-medium' : 'text-[#333] hover:bg-[#FFA500] hover:text-[#F5F5DC]'}`}
+            class={`py-2 px-4 rounded-md transition-colors duration-300 ${$page.url.pathname === item.path ? 'bg-[#FF6347] text-[#F5F5DC] font-medium' : 'text-[#333333] hover:bg-[#FFA500] hover:text-[#F5F5DC]'}`}
             on:click={closeMenu}
           >
             {item.name}
