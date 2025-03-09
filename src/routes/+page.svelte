@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
   import { goto } from '$app/navigation';
   import { userData } from '../lib/stores/store.js';
 
@@ -11,13 +13,23 @@
   let isLoading = false;
   let formError = false;
   let currentStep = 1;
-  // @ts-ignore
   /**
 	 * @type {string | null}
 	 */
   let lastClickedOption = null;
-  
+
+  // Input sanitization function
+  /**
+	 * @param {string} input
+	 */
+  function sanitizeInput(input) {
+    const element = document.createElement('div');
+    element.innerText = input; // This helps avoid injection of malicious code
+    return element.innerHTML;
+  }
+
   function handleSubmit() {
+    // Validation: Ensure all fields are selected
     if (!selectedMood || !selectedWeather || !selectedPlace) {
       formError = true;
       return;
@@ -25,10 +37,11 @@
 
     formError = false;
 
+    // Sanitize inputs before storing them
     userData.set({
-      mood: selectedMood,
-      weather: selectedWeather,
-      place: selectedPlace
+      mood: sanitizeInput(selectedMood),
+      weather: sanitizeInput(selectedWeather),
+      place: sanitizeInput(selectedPlace)
     });
 
     isLoading = true;
@@ -38,28 +51,36 @@
     }, 1000);
   }
 
-  // @ts-ignore
+  /**
+	 * @param {string} mood
+	 */
   function selectMood(mood) {
     selectedMood = mood;
     applyClickEffect(mood);
     setTimeout(() => rotateSection(2), 300);
   }
 
-  // @ts-ignore
+  /**
+	 * @param {string} weather
+	 */
   function selectWeather(weather) {
     selectedWeather = weather;
     applyClickEffect(weather);
     setTimeout(() => rotateSection(3), 300);
   }
 
-  // @ts-ignore
+  /**
+	 * @param {string} place
+	 */
   function selectPlace(place) {
     selectedPlace = place;
     applyClickEffect(place);
     setTimeout(() => handleSubmit(), 300);
   }
 
-  // @ts-ignore
+  /**
+	 * @param {number} step
+	 */
   function rotateSection(step) {
     currentStep = step;
   }
@@ -70,17 +91,21 @@
     }
   }
 
-  // @ts-ignore
+  /**
+	 * @param {KeyboardEvent & { currentTarget: EventTarget & HTMLButtonElement; }} event
+	 * @param {{ (): number; (): 2 | null; (): 3 | null; (): void; }} action
+	 */
   function handleKeyDown(event, action) {
     if (event.key === 'Enter' || event.key === ' ') {
       action();
     }
   }
   
-  // @ts-ignore
+  /**
+	 * @param {any} option
+	 */
   function applyClickEffect(option) {
     lastClickedOption = option;
-    // Reset after animation completes
     setTimeout(() => {
       lastClickedOption = null;
     }, 500);
@@ -133,11 +158,9 @@
     
     <!-- Content container with options -->
     <div class="bg-white rounded-lg relative overflow-hidden" role="tabpanel">
-      <!-- Purple accent bar at top -->
       <div class="h-1 w-full bg-[#6C5B7B] absolute top-0 left-0"></div>
       
       <div class="p-6">
-        <!-- Mood Selection -->
         {#if currentStep === 1}
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {#each moods as mood}
@@ -150,7 +173,6 @@
           </div>
         {/if}
 
-        <!-- Weather Selection -->
         {#if currentStep === 2}
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {#each weathers as weather}
@@ -163,7 +185,6 @@
           </div>
         {/if}
 
-        <!-- Place Selection -->
         {#if currentStep === 3}
           <div class="grid grid-cols-2 gap-3">
             {#each places as place}
@@ -176,7 +197,6 @@
           </div>
         {/if}
 
-        <!-- Navigation -->
         <div class="flex justify-between mt-6">
           {#if currentStep > 1}
             <button 
@@ -186,9 +206,9 @@
               ←
             </button>
           {:else}
-            <div></div> <!-- Empty div for spacing -->
+            <div></div>
           {/if}
-          
+
           {#if currentStep < 3 && ((currentStep === 1 && selectedMood) || (currentStep === 2 && selectedWeather))}
             <button 
               class="w-10 h-10 rounded-full bg-[#F67280] text-white flex items-center justify-center text-xl transition-all hover:bg-[#E56270] hover:scale-110 active:scale-95" 
@@ -197,7 +217,7 @@
               →
             </button>
           {:else if currentStep === 3}
-            <div></div> <!-- Empty div for spacing -->
+            <div></div>
           {/if}
         </div>
 
@@ -216,20 +236,13 @@
       </div>
     </div>
 
-    <!-- Error Message -->
+    <!-- Form error message -->
     {#if formError}
-      <p class="text-[#E56270] mt-4 text-lg" role="alert">All options must be selected</p>
-    {/if}
-
-    <!-- Loading State -->
-    {#if isLoading}
-      <div class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50" aria-live="assertive" aria-label="Loading">
-        <div class="w-12 h-12 border-4 border-[rgba(255,255,255,0.3)] border-t-[#F67280] rounded-full animate-spin" aria-hidden="true"></div>
-        <span class="sr-only">Loading...</span>
-      </div>
+      <p class="mt-4 text-red-500">Please select a mood, weather, and place.</p>
     {/if}
   </div>
 </div>
+
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap');
