@@ -332,21 +332,21 @@
   }
 
   .roulette-wheel {
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  border: 2px solid #FF6347; /* Warm, subtle color */
-  position: relative;
-  overflow: hidden;
-  transform-origin: center center;
-  transition: transform 3s ease-out, box-shadow 0.3s ease-in-out; /* Adjusted to 3s for smoother spin */
-  background: linear-gradient(135deg, #FFB6C1, #FFD700); /* Soft pastel pink to a light candy yellow */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 2px solid #FF6347; /* Subtle, warm color for the border */
+    position: relative;
+    overflow: hidden;
+    transform-origin: center center;
+    transition: transform 3s ease-out, box-shadow 0.3s ease-in-out;
+    background: linear-gradient(135deg, #FFB6C1, #FFD700); /* Soft pastel pink to light yellow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+  }
 
-.roulette-wheel:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
-}
+  .roulette-wheel:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover for emphasis */
+  }
 
   .roulette-items {
     position: absolute;
@@ -363,7 +363,7 @@
   }
 
   .roulette-items.blurred {
-    filter: blur(2px);
+    filter: blur(2px); /* Slight blur for better animation */
   }
 
   .roulette-item {
@@ -371,7 +371,7 @@
     top: 50%;
     left: 50%;
     text-align: center;
-    font-size: 16px;
+    font-size: 18px;
     transform-origin: center;
     display: flex;
     justify-content: center;
@@ -385,14 +385,14 @@
     left: 50%;
     top: 0;
     transform: translateX(-50%) translateY(-100px) rotate(90deg);
-    font-size: 12px;
+    font-size: 14px;
     max-width: 80px;
     white-space: nowrap;
-    color: #2E4057;
+    color: #333333; /* Darker color for better contrast */
   }
 
   .roulette-item.highlighted span {
-    color: #F67280;
+    color: #FF6347; /* Highlight color for emphasis */
     font-weight: 900;
   }
 
@@ -401,12 +401,12 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 18px;
+    font-size: 20px; /* Increased font size for better readability */
     font-weight: bold;
-    color: #2E4057;
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 10px 16px;
+    color: #FFFFFF; /* White text for clear contrast */
+    background-color: rgba(46, 64, 87, 0.75); /* Slightly darker background with reduced opacity */
+    padding: 14px 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Slightly softer shadow */
   }
 </style>
