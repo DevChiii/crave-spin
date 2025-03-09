@@ -166,7 +166,7 @@
             {#each moods as mood}
               <button 
                 on:click={() => selectMood(mood)} 
-                class="py-3 px-2 rounded-lg border-2 text-lg transition-all {selectedMood === mood ? 'bg-[#F67280] text-white border-[#F67280] font-bold -translate-y-1 shadow-md' : 'border-gray-200 text-[#2E4057] hover:border-[#F8B195] hover:-translate-y-1'} {lastClickedOption === mood ? 'click-effect' : ''}">
+                class="py-3 px-2 rounded-lg border-2 text-sm sm:text-lg transition-all {selectedMood === mood ? 'bg-[#F67280] text-white border-[#F67280] font-bold -translate-y-1 shadow-md' : 'border-gray-200 text-[#2E4057] hover:border-[#F8B195] hover:-translate-y-1'} {lastClickedOption === mood ? 'click-effect' : ''}">
                 {mood}
               </button>
             {/each}
