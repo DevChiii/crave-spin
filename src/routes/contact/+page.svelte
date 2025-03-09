@@ -12,6 +12,8 @@
     let submitAttempts: number = 0;
     let lastSubmitTime: number = 0;
     let formspreeConfirmationCode: string = ''; // To store confirmation code
+    let tosAgreed: boolean = false; // Track if user has agreed to ToS
+    let showTosModal: boolean = false; // Control modal visibility
     
     // This would come from your environment variables in SvelteKit
     // Added fallback URL in case the environment variable isn't set
@@ -103,12 +105,82 @@
         return formspreePattern.test(formspreeUrl);
     }
     
-    async function handleSubmit(event: Event): Promise<void> {
-        event.preventDefault();
-        
+    function validateForm(): boolean {
         // Clear previous errors
         errorMessage = '';
         
+        // Validate form
+        if (!email || !message) {
+            errorMessage = 'Both fields are required.';
+            return false;
+        }
+        
+        if (!validateEmail(email)) {
+            errorMessage = 'Please enter a valid email address.';
+            return false;
+        }
+        
+        // Check message length
+        if (message.length < 5) {
+            errorMessage = 'Message is too short. Please provide more details.';
+            return false;
+        }
+        
+        if (message.length > 1000) {
+            errorMessage = 'Message is too long. Please limit to 1000 characters.';
+            return false;
+        }
+        
+        // Check for spam content
+        if (isSpam(message) || isSpam(email)) {
+            errorMessage = 'Your message has been flagged as potential spam. Please revise.';
+            return false;
+        }
+        
+        // Verify Formspree URL is correctly formatted
+        if (!verifyFormspreeUrl()) {
+            errorMessage = 'Form submission service not properly configured. Please check your Formspree URL.';
+            console.error('Invalid Formspree URL:', formspreeUrl);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    function openTosModal(): void {
+        // First validate the form
+        if (validateForm()) {
+            showTosModal = true;
+        }
+    }
+    
+    function closeTosModal(): void {
+        showTosModal = false;
+    }
+    
+    function agreeTos(): void {
+        tosAgreed = true;
+        closeTosModal();
+        // Automatically submit the form after agreeing
+        submitForm();
+    }
+    
+    async function handleSubmit(event: Event): Promise<void> {
+        event.preventDefault();
+        
+        // If form is valid but Terms not agreed, show modal
+        if (validateForm() && !tosAgreed) {
+            openTosModal();
+            return;
+        }
+        
+        // If terms are agreed, submit form
+        if (tosAgreed) {
+            submitForm();
+        }
+    }
+    
+    async function submitForm(): Promise<void> {
         // Rate limiting
         const now = Date.now();
         const timeSinceLastSubmit = now - lastSubmitTime;
@@ -127,41 +199,6 @@
         if (honeypot) {
             console.log('Bot detected via honeypot');
             isSuccess = true; // Fake success
-            return;
-        }
-        
-        // Validate form
-        if (!email || !message) {
-            errorMessage = 'Both fields are required.';
-            return;
-        }
-        
-        if (!validateEmail(email)) {
-            errorMessage = 'Please enter a valid email address.';
-            return;
-        }
-        
-        // Check message length
-        if (message.length < 5) {
-            errorMessage = 'Message is too short. Please provide more details.';
-            return;
-        }
-        
-        if (message.length > 1000) {
-            errorMessage = 'Message is too long. Please limit to 1000 characters.';
-            return;
-        }
-        
-        // Check for spam content
-        if (isSpam(message) || isSpam(email)) {
-            errorMessage = 'Your message has been flagged as potential spam. Please revise.';
-            return;
-        }
-        
-        // Verify Formspree URL is correctly formatted
-        if (!verifyFormspreeUrl()) {
-            errorMessage = 'Form submission service not properly configured. Please check your Formspree URL.';
-            console.error('Invalid Formspree URL:', formspreeUrl);
             return;
         }
         
@@ -191,6 +228,7 @@
             formData.append('email', sanitizedEmail);
             formData.append('message', sanitizedMessage);
             formData.append('_csrf', csrfToken);
+            formData.append('tosAgreed', 'yes'); // Add confirmation that ToS was agreed to
             
             // In production, use fetch to submit the form
             const response = await fetch(formspreeUrl, {
@@ -257,6 +295,15 @@
         isSuccess = false;
         errorMessage = '';
         csrfToken = generateCSRFToken();
+        tosAgreed = false;
+    }
+    
+    // Handle clicking outside the modal to close it
+    function handleClickOutside(event: MouseEvent): void {
+        const target = event.target as HTMLElement;
+        if (target.classList.contains('modal-overlay')) {
+            closeTosModal();
+        }
     }
 </script>
 
@@ -370,3 +417,79 @@
         {/if}
     </div>
 </div>
+
+<!-- Terms of Service and Privacy Policy Modal -->
+{#if showTosModal}
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <div 
+        class="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center modal-overlay"
+        on:click={handleClickOutside}
+    >
+        <div class="bg-white rounded-lg shadow-xl max-w-xl w-full mx-4 max-h-90vh overflow-y-auto">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-[#2E4057]">Terms of Service & Privacy Policy</h2>
+                    <!-- svelte-ignore a11y_consider_explicit_label -->
+                    <button 
+                        on:click={closeTosModal}
+                        class="text-gray-500 hover:text-gray-700"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="mb-6 overflow-y-auto max-h-80 text-left text-sm px-2">
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold text-[#2E4057]">Terms of Service</h3>
+                        <p>
+                            By using this contact form, you agree to the following terms:
+                        </p>
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li>This application is for casual, non-commercial use only.</li>
+                            <li>You agree not to submit spam, abusive, or offensive content.</li>
+                            <li>We reserve the right to ignore messages that violate our terms.</li>
+                            <li>This application is not intended for health-related information or advice.</li>
+                            <li>By submitting this form, you grant us permission to respond to your inquiry via the email you've provided.</li>
+                        </ul>
+                        
+                        <h3 class="text-lg font-semibold text-[#2E4057] pt-4">Privacy Policy</h3>
+                        <p>
+                            Here's how we handle your information:
+                        </p>
+                        <ul class="list-disc ml-6 space-y-2">
+                            <li>We collect only the information you provide in this form: your email and message content.</li>
+                            <li>We use Formspree to process form submissions. By using this form, you acknowledge that the information you provide will be transferred to Formspree for processing in accordance with their terms of service and privacy policy.</li>
+                            <li>Your email will only be used to respond to your message and will not be added to marketing lists.</li>
+                            <li>We do not share your information with third parties except Formspree (our form processor).</li>
+                            <li>We retain your messages only as long as necessary to address your inquiry.</li>
+                            <li>This site uses technical cookies necessary for the form's function and anonymous analytics to improve usability.</li>
+                        </ul>
+                        
+                        <p class="pt-4">
+                            For any questions about your data or to request deletion, please contact us through this form.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3 justify-end">
+                    <button 
+                        on:click={closeTosModal}
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all"
+                    >
+                        Decline
+                    </button>
+                    <button 
+                        on:click={agreeTos}
+                        class="px-4 py-2 bg-[#F67280] text-white rounded-lg hover:bg-[#E56270] transition-all"
+                    >
+                        I Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{/if}
