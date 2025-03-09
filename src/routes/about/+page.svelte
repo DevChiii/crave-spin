@@ -24,6 +24,11 @@
     <p class="text-[#2E4057] text-lg mb-8 px-6 leading-relaxed">
       CraveSpin was created by Devchiii, a beginner developer passionate about making food choices more fun and interactive. With the help of Miztyy, a talented designer and tester, the app brings together a great user experience and fresh design ideas. Their collaboration made CraveSpin come to life, and they are excited to continue improving it!
     </p>
+
+    <h2 class="text-[#2E4057] text-3xl font-semibold mb-6">Under Development</h2>
+    <p class="text-[#2E4057] text-lg mb-8 px-6 leading-relaxed">
+      CraveSpin is still under development, and we're working hard to make it even better! We love to hear your suggestions, so if you have any ideas or feedback, feel free to reach out to us on the <a href="/contact" class="text-[#F67280] font-semibold">Contact</a> page.
+    </p>
     
     <div class="mt-10">
       <a href="/" class="px-6 py-3 bg-[#F67280] text-white text-lg font-semibold rounded-full hover:bg-[#F8B195] transition-all ease-in-out duration-300">Go back to Home</a>
