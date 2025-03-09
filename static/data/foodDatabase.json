@@ -286,6 +286,13 @@
       "image": "https://example.com/images/buko_juice.jpg",
       "moods": ["Happy", "Lazy"],
       "weather": ["Hot", "Sunny"]
+    },
+    {
+      "id": 42,
+      "name": "Jun's Roasted Chicken",
+      "image": "https://example.com/images/buko_juice.jpg",
+      "moods": ["Happy", "Lazy"],
+      "weather": ["Hot", "Sunny"]
     }
   ]
 }
