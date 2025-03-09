@@ -12,12 +12,17 @@
     
     <h2 class="text-[#2E4057] text-3xl font-semibold mb-6">How It Works</h2>
     <p class="text-[#2E4057] text-lg mb-8 px-6 leading-relaxed">
-      Simply select your mood, location, and what you feel like eating, and CraveSpin will show you a random selection of food options – like a roulette wheel! It's all about making food fun and helping you break free from the endless food decision loop.
+      Simply input your location, mood, and the weather, and CraveSpin will show you a spinning list of food options. The list spins and randomly selects one, which will then appear in the center of the screen. It's like a fun, interactive game that helps you make food decisions based on how you feel and what's happening around you. No more endless scrolling or decision fatigue – just fun food choices!
     </p>
     
     <h2 class="text-[#2E4057] text-3xl font-semibold mb-6">Our Vision</h2>
     <p class="text-[#2E4057] text-lg mb-8 px-6 leading-relaxed">
       At CraveSpin, we aim to make food decisions less stressful and more exciting. Whether you're with friends or alone, the app adds a playful element to the dining experience, so you can focus on enjoying your meal, not stressing over what to choose.
+    </p>
+    
+    <h2 class="text-[#2E4057] text-3xl font-semibold mb-6">Meet the Team</h2>
+    <p class="text-[#2E4057] text-lg mb-8 px-6 leading-relaxed">
+      CraveSpin was created by Devchiii, a beginner developer passionate about making food choices more fun and interactive. With the help of Miztyy, a talented designer and tester, the app brings together a great user experience and fresh design ideas. Their collaboration made CraveSpin come to life, and they are excited to continue improving it!
     </p>
     
     <div class="mt-10">
