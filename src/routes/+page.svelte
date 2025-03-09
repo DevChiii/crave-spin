@@ -4,7 +4,7 @@
   import { goto } from '$app/navigation';
   import { userData } from '../lib/stores/store.js';
 
-  let moods = ["Happy", "Hungry", "Adventurous", "Lazy", "Sad"];
+  let moods = ["Happy", "Hungry", "Adventurous", "Lazy", "Sad", "Vibing"];
   let selectedMood = "";
   let selectedWeather = "";
   let selectedPlace = "";
