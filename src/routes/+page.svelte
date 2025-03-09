@@ -178,7 +178,7 @@
             {#each weathers as weather}
               <button 
                 on:click={() => selectWeather(weather)} 
-                class="py-3 px-2 rounded-lg border-2 text-lg transition-all {selectedWeather === weather ? 'bg-[#F67280] text-white border-[#F67280] font-bold -translate-y-1 shadow-md' : 'border-gray-200 text-[#2E4057] hover:border-[#F8B195] hover:-translate-y-1'} {lastClickedOption === weather ? 'click-effect' : ''}">
+                class="py-3 px-2 rounded-lg border-2 sm:text-lg transition-all {selectedWeather === weather ? 'bg-[#F67280] text-white border-[#F67280] font-bold -translate-y-1 shadow-md' : 'border-gray-200 text-[#2E4057] hover:border-[#F8B195] hover:-translate-y-1'} {lastClickedOption === weather ? 'click-effect' : ''}">
                 {weather}
               </button>
             {/each}
@@ -190,7 +190,7 @@
             {#each places as place}
               <button 
                 on:click={() => selectPlace(place)} 
-                class="py-3 px-2 rounded-lg border-2 text-lg transition-all {selectedPlace === place ? 'bg-[#F67280] text-white border-[#F67280] font-bold -translate-y-1 shadow-md' : 'border-gray-200 text-[#2E4057] hover:border-[#F8B195] hover:-translate-y-1'} {lastClickedOption === place ? 'click-effect' : ''}">
+                class="py-3 px-2 rounded-lg border-2 sm:text-lg transition-all {selectedPlace === place ? 'bg-[#F67280] text-white border-[#F67280] font-bold -translate-y-1 shadow-md' : 'border-gray-200 text-[#2E4057] hover:border-[#F8B195] hover:-translate-y-1'} {lastClickedOption === place ? 'click-effect' : ''}">
                 {place}
               </button>
             {/each}
