@@ -2,7 +2,7 @@
     <div class="container mx-auto text-center">
       <!-- Stylized Divider -->
       <div class="relative mb-8">
-        <div class="absolute inset-x-0 top-0 h-1 bg-[#FFD700] transform rotate-12 translate-y-1/2"></div>
+        <div class="absolute inset-x-0 top-0 h-1 bg-[#FFD700] transform rotate-12 translate-y-1/2 sm:rotate-8 md:rotate-6 lg:rotate-4 xl:rotate-4"></div>
         <h2 class="relative text-3xl font-extrabold text-[#F5F5F5]">Let’s Get Craving!</h2>
       </div>
   
