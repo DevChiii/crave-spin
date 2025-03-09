@@ -679,6 +679,54 @@
       "combinationMatches": [
         {"mood": "lazy", "weather": "cold"}
       ]
+    },
+    {
+      "name": "Hug",
+      "moods": ["lazy"],
+      "weather": ["cold"],
+      "combinationMatches": [
+        {"mood": "vibing", "weather": "cold"}
+      ]
+    },
+    {
+      "name": "Ngiti Nya",
+      "moods": [],
+      "weather": ["hot"],
+      "combinationMatches": [
+        {"mood": "vibing", "weather": "hot"}
+      ]
+    },
+    {
+      "name": "Bebe Time",
+      "moods": [],
+      "weather": ["sunny"],
+      "combinationMatches": [
+        {"mood": "vibing", "weather": "sunny"}
+      ]
+    },
+    {
+      "name": "Travel",
+      "moods": [],
+      "weather": ["rainy"],
+      "combinationMatches": [
+        {"mood": "vibing", "weather": "rainy"}
+      ]
+    },
+    {
+      "name": "Beer",
+      "moods": [],
+      "weather": ["cool"],
+      "combinationMatches": [
+        {"mood": "vibing", "weather": "cool"}
+      ]
+    },
+    {
+      "name": "Attention",
+      "moods": [],
+      "weather": ["windy"],
+      "combinationMatches": [
+        {"mood": "vibing", "weather": "windy"}
+      ]
     }
   ]
 }
