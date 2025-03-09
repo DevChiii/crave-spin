@@ -1,298 +1,597 @@
-{
-  "foods": [
-    {
-      "id": 1,
-      "name": "Ice Cream",
-      "image": "https://example.com/images/ice_cream.jpg",
-      "moods": ["Happy", "Lazy", "Sad"],
-      "weather": ["Hot", "Sunny"]
-    },
-    {
-      "id": 2,
-      "name": "Pizza",
-      "image": "https://example.com/images/pizza.jpg",
-      "moods": ["Hungry", "Lazy", "Sad"],
-      "weather": ["Hot", "Cool", "Rainy"]
-    },
-    {
-      "id": 3,
-      "name": "Sushi",
-      "image": "https://example.com/images/sushi.jpg",
-      "moods": ["Adventurous", "Hungry"],
-      "weather": ["Hot", "Cool"]
-    },
-    {
-      "id": 4,
-      "name": "Ramen",
-      "image": "https://example.com/images/ramen.jpg",
-      "moods": ["Hungry", "Sad", "Adventurous"],
-      "weather": ["Cold", "Rainy"]
-    },
-    {
-      "id": 5,
-      "name": "Grilled Cheese Sandwich",
-      "image": "https://example.com/images/grilled_cheese.jpg",
-      "moods": ["Lazy", "Sad"],
-      "weather": ["Cold", "Windy"]
-    },
-    {
-      "id": 6,
-      "name": "Smoothie",
-      "image": "https://example.com/images/smoothie.jpg",
-      "moods": ["Happy", "Adventurous"],
-      "weather": ["Sunny", "Hot"]
-    },
-    {
-      "id": 7,
-      "name": "Burger",
-      "image": "https://example.com/images/burger.jpg",
-      "moods": ["Hungry", "Lazy"],
-      "weather": ["Hot", "Rainy"]
-    },
-    {
-      "id": 8,
-      "name": "Hot Chocolate",
-      "image": "https://example.com/images/hot_chocolate.jpg",
-      "moods": ["Happy", "Sad"],
-      "weather": ["Cold"]
-    },
-    {
-      "id": 9,
-      "name": "Fried Chicken",
-      "image": "https://example.com/images/fried_chicken.jpg",
-      "moods": ["Hungry", "Sad"],
-      "weather": ["Hot", "Windy"]
-    },
-    {
-      "id": 10,
-      "name": "Stew",
-      "image": "https://example.com/images/stew.jpg",
-      "moods": ["Sad", "Hungry"],
-      "weather": ["Cold", "Rainy"]
-    },
-    {
-      "id": 11,
-      "name": "Tacos",
-      "image": "https://example.com/images/tacos.jpg",
-      "moods": ["Hungry", "Adventurous"],
-      "weather": ["Hot", "Sunny"]
-    },
-    {
-      "id": 12,
-      "name": "Caesar Salad",
-      "image": "https://example.com/images/caesar_salad.jpg",
-      "moods": ["Lazy", "Happy"],
-      "weather": ["Cool", "Sunny"]
-    },
-    {
-      "id": 13,
-      "name": "Chili",
-      "image": "https://example.com/images/chili.jpg",
-      "moods": ["Hungry", "Sad"],
-      "weather": ["Cold", "Windy"]
-    },
-    {
-      "id": 14,
-      "name": "Fish & Chips",
-      "image": "https://example.com/images/fish_and_chips.jpg",
-      "moods": ["Hungry", "Adventurous"],
-      "weather": ["Cool", "Rainy"]
-    },
-    {
-      "id": 15,
-      "name": "Frittata",
-      "image": "https://example.com/images/frittata.jpg",
-      "moods": ["Lazy", "Sad"],
-      "weather": ["Cold", "Windy"]
-    },
-    {
-      "id": 16,
-      "name": "Burrito",
-      "image": "https://example.com/images/burrito.jpg",
-      "moods": ["Hungry", "Adventurous"],
-      "weather": ["Hot", "Rainy"]
-    },
-    {
-      "id": 17,
-      "name": "Lemonade",
-      "image": "https://example.com/images/lemonade.jpg",
-      "moods": ["Happy", "Lazy"],
-      "weather": ["Sunny", "Hot"]
-    },
-    {
-      "id": 18,
-      "name": "Pasta",
-      "image": "https://example.com/images/pasta.jpg",
-      "moods": ["Hungry", "Lazy"],
-      "weather": ["Cold", "Rainy"]
-    },
-    {
-      "id": 19,
-      "name": "Ice Tea",
-      "image": "https://example.com/images/ice_tea.jpg",
-      "moods": ["Sad", "Lazy"],
-      "weather": ["Sunny", "Hot"]
-    },
-    {
-      "id": 20,
-      "name": "Grilled Fish",
-      "image": "https://example.com/images/grilled_fish.jpg",
-      "moods": ["Adventurous", "Hungry"],
-      "weather": ["Cool", "Windy"]
-    },
-    {
-      "id": 21,
-      "name": "Adobo",
-      "image": "https://example.com/images/adobo.jpg",
-      "moods": ["Hungry", "Lazy"],
-      "weather": ["Cool", "Rainy"]
-    },
-    {
-      "id": 22,
-      "name": "Sinigang",
-      "image": "https://example.com/images/sinigang.jpg",
-      "moods": ["Sad", "Hungry"],
-      "weather": ["Rainy", "Cold"]
-    },
-    {
-      "id": 23,
-      "name": "Lechon",
-      "image": "https://example.com/images/lechon.jpg",
-      "moods": ["Happy", "Adventurous"],
-      "weather": ["Sunny", "Hot"]
-    },
-    {
-      "id": 24,
-      "name": "Pancit Canton",
-      "image": "https://example.com/images/pancit_canton.jpg",
-      "moods": ["Lazy", "Hungry"],
-      "weather": ["Cool", "Windy"]
-    },
-    {
-      "id": 25,
-      "name": "Bulalo",
-      "image": "https://example.com/images/bulalo.jpg",
-      "moods": ["Hungry", "Sad"],
-      "weather": ["Cold", "Rainy"]
-    },
-    {
-      "id": 26,
-      "name": "Bicol Express",
-      "image": "https://example.com/images/bicol_express.jpg",
-      "moods": ["Adventurous", "Hungry"],
-      "weather": ["Cool", "Windy"]
-    },
-    {
-      "id": 27,
-      "name": "Halo-Halo",
-      "image": "https://example.com/images/halo_halo.jpg",
-      "moods": ["Happy", "Lazy"],
-      "weather": ["Hot", "Sunny"]
-    },
-    {
-      "id": 28,
-      "name": "Turon",
-      "image": "https://example.com/images/turon.jpg",
-      "moods": ["Lazy", "Happy"],
-      "weather": ["Cool", "Sunny"]
-    },
-    {
-      "id": 29,
-      "name": "Banana Cue",
-      "image": "https://example.com/images/bananacue.jpg",
-      "moods": ["Lazy", "Happy"],
-      "weather": ["Sunny", "Hot"]
-    },
-    {
-      "id": 30,
-      "name": "Kwek-Kwek",
-      "image": "https://example.com/images/kwek_kwek.jpg",
-      "moods": ["Adventurous", "Hungry"],
-      "weather": ["Hot", "Cool"]
-    },
-    {
-      "id": 31,
-      "name": "Taho",
-      "image": "https://example.com/images/taho.jpg",
-      "moods": ["Lazy", "Happy"],
-      "weather": ["Cool", "Rainy"]
-    },
-    {
-      "id": 32,
-      "name": "Puto Bumbong",
-      "image": "https://example.com/images/puto_bumbong.jpg",
-      "moods": ["Happy", "Hungry"],
-      "weather": ["Cold", "Rainy"]
-    },
-    {
-      "id": 33,
-      "name": "Champorado",
-      "image": "https://example.com/images/champorado.jpg",
-      "moods": ["Sad", "Lazy"],
-      "weather": ["Cold", "Rainy"]
-    },
-    {
-      "id": 34,
-      "name": "Isaw",
-      "image": "https://example.com/images/isaw.jpg",
-      "moods": ["Adventurous", "Hungry"],
-      "weather": ["Hot", "Cool"]
-    },
-    {
-      "id": 35,
-      "name": "Lumpiang Shanghai",
-      "image": "https://example.com/images/lumpiang_shanghai.jpg",
-      "moods": ["Happy", "Hungry"],
-      "weather": ["Cool", "Windy"]
-    },
-    {
-      "id": 36,
-      "name": "Ginataang Bilo-Bilo",
-      "image": "https://example.com/images/ginataang_bilo_bilo.jpg",
-      "moods": ["Sad", "Lazy"],
-      "weather": ["Cold", "Rainy"]
-    },
-    {
-      "id": 37,
-      "name": "Manggang Hilaw with Bagoong",
-      "image": "https://example.com/images/manggang_hilaw.jpg",
-      "moods": ["Adventurous", "Happy"],
-      "weather": ["Sunny", "Hot"]
-    },
-    {
-      "id": 38,
-      "name": "Balut",
-      "image": "https://example.com/images/balut.jpg",
-      "moods": ["Adventurous", "Hungry"],
-      "weather": ["Cool", "Windy"]
-    },
-    {
-      "id": 39,
-      "name": "Palabok",
-      "image": "https://example.com/images/palabok.jpg",
-      "moods": ["Hungry", "Happy"],
-      "weather": ["Cool", "Windy"]
-    },
-    {
-      "id": 40,
-      "name": "Buko Juice",
-      "image": "https://example.com/images/buko_juice.jpg",
-      "moods": ["Happy", "Lazy"],
-      "weather": ["Hot", "Sunny"]
-    },
-    {
-      "id": 41,
-      "name": "Sisig",
-      "image": "https://example.com/images/buko_juice.jpg",
-      "moods": ["Happy", "Lazy"],
-      "weather": ["Hot", "Sunny"]
-    },
-    {
-      "id": 42,
-      "name": "Jun's Roasted Chicken",
-      "image": "https://example.com/images/buko_juice.jpg",
-      "moods": ["Happy", "Lazy"],
-      "weather": ["Hot", "Sunny"]
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "name": "Iced Coffee",
+    "image": "https://example.com/images/iced-coffee.jpg",
+    "moods": ["Happy", "Hungry", "Lazy", "Sad"],
+    "weather": ["Hot", "Sunny", "Windy"]
+  },
+  {
+    "id": 2,
+    "name": "Ice Cream",
+    "image": "https://example.com/images/ice-cream.jpg",
+    "moods": ["Happy", "Hungry", "Lazy", "Sad"],
+    "weather": ["Hot", "Sunny", "Windy"]
+  },
+  {
+    "id": 3,
+    "name": "Milkshake",
+    "image": "https://example.com/images/milkshake.jpg",
+    "moods": ["Happy", "Hungry", "Lazy", "Sad"],
+    "weather": ["Hot", "Sunny", "Windy"]
+  },
+  {
+    "id": 4,
+    "name": "Milktea",
+    "image": "https://example.com/images/milktea.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 5,
+    "name": "Halo-Halo",
+    "image": "https://example.com/images/halo-halo.jpg",
+    "moods": ["Happy", "Hungry", "Adventurous"],
+    "weather": ["Hot"]
+  },
+  {
+    "id": 6,
+    "name": "Juice",
+    "image": "https://example.com/images/juice.jpg",
+    "moods": ["Happy", "Hungry", "Lazy", "Sad"],
+    "weather": ["Hot", "Sunny", "Windy"]
+  },
+  {
+    "id": 7,
+    "name": "Popsicles",
+    "image": "https://example.com/images/popsicles.jpg",
+    "moods": ["Happy", "Hungry", "Lazy"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 8,
+    "name": "Ice Candy",
+    "image": "https://example.com/images/ice-candy.jpg",
+    "moods": ["Happy", "Hungry", "Lazy"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 9,
+    "name": "Buko Salad",
+    "image": "https://example.com/images/buko-salad.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 10,
+    "name": "Smoothie",
+    "image": "https://example.com/images/smoothie.jpg",
+    "moods": ["Happy", "Hungry", "Lazy"],
+    "weather": ["Hot", "Cool", "Sunny"]
+  },
+  {
+    "id": 11,
+    "name": "Fruit Shake",
+    "image": "https://example.com/images/fruit-shake.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 12,
+    "name": "Water with Ice",
+    "image": "https://example.com/images/water-with-ice.jpg",
+    "moods": ["Lazy", "Sad"],
+    "weather": ["Hot"]
+  },
+  {
+    "id": 13,
+    "name": "Cake",
+    "image": "https://example.com/images/cake.jpg",
+    "moods": ["Happy", "Hungry", "Lazy", "Sad"],
+    "weather": ["Cold", "Rainy", "Windy"]
+  },
+  {
+    "id": 14,
+    "name": "Bread",
+    "image": "https://example.com/images/bread.jpg",
+    "moods": ["Hungry", "Lazy"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 15,
+    "name": "Sandwich",
+    "image": "https://example.com/images/sandwich.jpg",
+    "moods": ["Hungry", "Lazy"],
+    "weather": ["Cold", "Windy"]
+  },
+  {
+    "id": 16,
+    "name": "Pizza",
+    "image": "https://example.com/images/pizza.jpg",
+    "moods": ["Happy", "Hungry", "Adventurous"],
+    "weather": ["Sunny", "Windy"]
+  },
+  {
+    "id": 17,
+    "name": "Burger",
+    "image": "https://example.com/images/burger.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Sunny", "Windy"]
+  },
+  {
+    "id": 18,
+    "name": "Chips",
+    "image": "https://example.com/images/chips.jpg",
+    "moods": ["Hungry", "Lazy"],
+    "weather": ["Cool", "Windy"]
+  },
+  {
+    "id": 19,
+    "name": "Fries",
+    "image": "https://example.com/images/fries.jpg",
+    "moods": ["Happy", "Hungry", "Lazy"],
+    "weather": ["Cool", "Windy"]
+  },
+  {
+    "id": 20,
+    "name": "Donuts",
+    "image": "https://example.com/images/donuts.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Sunny"]
+  },
+  {
+    "id": 21,
+    "name": "Fried Chicken",
+    "image": "https://example.com/images/fried-chicken.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 22,
+    "name": "Chicken Nuggets",
+    "image": "https://example.com/images/chicken-nuggets.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 23,
+    "name": "Fruits",
+    "image": "https://example.com/images/fruits.jpg",
+    "moods": ["Happy", "Hungry", "Lazy"],
+    "weather": ["Sunny", "Windy"]
+  },
+  {
+    "id": 24,
+    "name": "Chocolate",
+    "image": "https://example.com/images/chocolate.jpg",
+    "moods": ["Hungry", "Sad"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 25,
+    "name": "Popcorn",
+    "image": "https://example.com/images/popcorn.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Windy"]
+  },
+  {
+    "id": 26,
+    "name": "Nuts",
+    "image": "https://example.com/images/nuts.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Windy"]
+  },
+  {
+    "id": 27,
+    "name": "Mashed Potatoes",
+    "image": "https://example.com/images/mashed-potatoes.jpg",
+    "moods": ["Hungry", "Sad"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 28,
+    "name": "Rice Dishes",
+    "image": "https://example.com/images/rice-dishes.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 29,
+    "name": "Oatmeal",
+    "image": "https://example.com/images/oatmeal.jpg",
+    "moods": ["Tired", "Hungry"],
+    "weather": ["Cold"]
+  },
+  {
+    "id": 30,
+    "name": "Tacos",
+    "image": "https://example.com/images/tacos.jpg",
+    "moods": ["Adventurous"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 31,
+    "name": "Shawarma",
+    "image": "https://example.com/images/shawarma.jpg",
+    "moods": ["Adventurous"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 32,
+    "name": "Pasta Dishes",
+    "image": "https://example.com/images/pasta-dishes.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 33,
+    "name": "Brownies",
+    "image": "https://example.com/images/brownies.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 34,
+    "name": "Korean Foods",
+    "image": "https://example.com/images/korean-foods.jpg",
+    "moods": ["Hungry", "Adventurous"],
+    "weather": ["Cold", "Windy"]
+  },
+  {
+    "id": 35,
+    "name": "Lumpiang Shanghai",
+    "image": "https://example.com/images/lumpiang-shanghai.jpg",
+    "moods": ["Hungry", "Adventurous"],
+    "weather": ["Cold"]
+  },
+  {
+    "id": 36,
+    "name": "Siomai",
+    "image": "https://example.com/images/siomai.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold"]
+  },
+  {
+    "id": 37,
+    "name": "Cookies",
+    "image": "https://example.com/images/cookies.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 38,
+    "name": "Lumpia",
+    "image": "https://example.com/images/lumpia.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Windy"]
+  },
+  {
+    "id": 39,
+    "name": "Tempura",
+    "image": "https://example.com/images/tempura.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 40,
+    "name": "Kwek-Kwek",
+    "image": "https://example.com/images/kwek-kwek.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 41,
+    "name": "Tokneneng",
+    "image": "https://example.com/images/tokneneng.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 42,
+    "name": "Fish Balls",
+    "image": "https://example.com/images/fish-balls.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 43,
+    "name": "Squid Balls",
+    "image": "https://example.com/images/squid-balls.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 44,
+    "name": "Kikiam",
+    "image": "https://example.com/images/kikiam.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 45,
+    "name": "Isaw",
+    "image": "https://example.com/images/isaw.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 46,
+    "name": "Betamax",
+    "image": "https://example.com/images/betamax.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 47,
+    "name": "Balut",
+    "image": "https://example.com/images/balut.jpg",
+    "moods": ["Hungry", "Adventurous"],
+    "weather": ["Cold"]
+  },
+  {
+    "id": 48,
+    "name": "Taho",
+    "image": "https://example.com/images/taho.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Cold"]
+  },
+  {
+    "id": 49,
+    "name": "Calamares",
+    "image": "https://example.com/images/calamares.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 50,
+    "name": "Banana Cue",
+    "image": "https://example.com/images/banana-cue.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 51,
+    "name": "Turon",
+    "image": "https://example.com/images/turon.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Hot"]
+  },
+  {
+    "id": 52,
+    "name": "Ice Scramble",
+    "image": "https://example.com/images/ice-scramble.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 53,
+    "name": "Sweet Corn",
+    "image": "https://example.com/images/sweet-corn.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 54,
+    "name": "Bibingka",
+    "image": "https://example.com/images/bibingka.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 55,
+    "name": "Puto Bumbong",
+    "image": "https://example.com/images/puto-bumbong.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 56,
+    "name": "Chicharon",
+    "image": "https://example.com/images/chicharon.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 57,
+    "name": "Biko",
+    "image": "https://example.com/images/biko.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 58,
+    "name": "Suman",
+    "image": "https://example.com/images/suman.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 59,
+    "name": "Sapin-Sapin",
+    "image": "https://example.com/images/sapin-sapin.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 60,
+    "name": "Palitaw",
+    "image": "https://example.com/images/palitaw.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 61,
+    "name": "Kutsinta",
+    "image": "https://example.com/images/kutsinta.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 62,
+    "name": "Puto",
+    "image": "https://example.com/images/puto.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 63,
+    "name": "Cassava Cake",
+    "image": "https://example.com/images/cassava-cake.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 64,
+    "name": "Pichi-Pichi",
+    "image": "https://example.com/images/pichi-pichi.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 65,
+    "name": "Maja Blanca",
+    "image": "https://example.com/images/maja-blanca.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 66,
+    "name": "Ginataang Bilo-Bilo",
+    "image": "https://example.com/images/ginataang-bilo-bilo.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 67,
+    "name": "Espasol",
+    "image": "https://example.com/images/espasol.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 68,
+    "name": "Tupig",
+    "image": "https://example.com/images/tupig.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 69,
+    "name": "Ube Halaya",
+    "image": "https://example.com/images/ube-halaya.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 70,
+    "name": "Nilupak",
+    "image": "https://example.com/images/nilupak.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 71,
+    "name": "Leche Flan",
+    "image": "https://example.com/images/leche-flan.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 72,
+    "name": "Mango Float",
+    "image": "https://example.com/images/mango-float.jpg",
+    "moods": ["Happy"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 73,
+    "name": "Home-Cooked Dishes",
+    "image": "https://example.com/images/home-cooked-dishes.jpg",
+    "moods": ["Happy", "Hungry", "Lazy"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 74,
+    "name": "Candy",
+    "image": "https://example.com/images/candy.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Sunny"]
+  },
+  {
+    "id": 75,
+    "name": "Gummies",
+    "image": "https://example.com/images/gummies.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Sunny"]
+  },
+  {
+    "id": 76,
+    "name": "Fruit Salad",
+    "image": "https://example.com/images/fruit-salad.jpg",
+    "moods": ["Happy", "Hungry"],
+    "weather": ["Hot"]
+  },
+  {
+    "id": 77,
+    "name": "Salad",
+    "image": "https://example.com/images/salad.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Hot"]
+  },
+  {
+    "id": 78,
+    "name": "Sushi",
+    "image": "https://example.com/images/sushi.jpg",
+    "moods": ["Adventurous"],
+    "weather": ["Hot"]
+  },
+  {
+    "id": 79,
+    "name": "Camote Cue",
+    "image": "https://example.com/images/camote-cue.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Hot", "Sunny"]
+  },
+  {
+    "id": 80,
+    "name": "Okoy",
+    "image": "https://example.com/images/okoy.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 81,
+    "name": "Meat Dishes",
+    "image": "https://example.com/images/meat-dishes.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold"]
+  },
+  {
+    "id": 82,
+    "name": "Tea",
+    "image": "https://example.com/images/tea.jpg",
+    "moods": ["Lazy"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 83,
+    "name": "Vegetables Dishes",
+    "image": "https://example.com/images/vegetables-dishes.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 84,
+    "name": "Pastries",
+    "image": "https://example.com/images/pastries.jpg",
+    "moods": ["Hungry", "Lazy"],
+    "weather": ["Cold", "Rainy"]
+  },
+  {
+    "id": 85,
+    "name": "Maruya",
+    "image": "https://example.com/images/maruya.jpg",
+    "moods": ["Hungry"],
+    "weather": ["Cold", "Rainy"]
+  }
+]
