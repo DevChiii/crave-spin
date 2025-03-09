@@ -295,19 +295,20 @@
           {/if}
         </div>
 
-        <div class="mt-6 flex flex-col md:flex-row justify-center gap-4 w-full">
+        <div class="mt-6 flex flex-col md:flex-row justify-center gap-6 w-full">
           <button 
             on:click={() => { spinWheel(); resetBlur(); }} 
-            class="w-full md:w-36 px-4 py-2 text-md md:text-lg font-bold bg-[#F67280] text-white rounded-lg hover:bg-[#E56270] transition-all">
-            🎰 Spin
+            class="w-full md:w-40 px-6 py-3 text-lg font-bold bg-[#F67280] text-white rounded-lg hover:bg-[#E56270] transition-all">
+            🎰 Spin the Wheel
           </button>
           
           <button 
             on:click={() => { getEnhancedRandomFoodSuggestions(); resetBlur(); }} 
-            class="w-full md:w-36 px-4 py-2 text-md md:text-lg font-bold bg-[#6C5B7B] text-white rounded-lg hover:bg-[#5D4C6C] transition-all">
-            🔀 Shuffle
+            class="w-full md:w-40 px-6 py-3 text-lg font-bold bg-[#6C5B7B] text-white rounded-lg hover:bg-[#5D4C6C] transition-all">
+            🔀 Surprise Me!
           </button>
-        </div>        
+        </div>
+              
       </div>
     {:else}
       <p class="mt-4 text-lg text-[#F67280]">No food matches your preferences. Try shuffling!</p>
