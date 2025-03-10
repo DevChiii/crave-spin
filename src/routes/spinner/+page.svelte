@@ -292,7 +292,7 @@
 
     <h2 class="text-xl font-bold text-[#F67280] mt-6 mb-4">
       {#if isRandomSuggestions}
-        Random Suggestions
+        Spin to Satisfy Your Craving!
       {:else}
         Spin to Satisfy Your Craving!
       {/if}
