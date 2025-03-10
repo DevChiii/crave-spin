@@ -326,7 +326,14 @@
         </section>
 
         <section class="mb-6">
-          <h3 class="text-xl font-semibold mb-3 text-[#333333]">6. Your Rights</h3>
+          <h3 class="text-xl font-semibold mb-3 text-[#333333]">6. Data Security</h3>
+          <p class="mb-3">We take reasonable precautions to protect your personal information from unauthorized access, use, or disclosure. This includes encryption, secure servers, and other industry-standard security measures. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee its absolute security.</p>
+          
+          <p class="mb-3">While we strive to protect your personal information, please be aware that any data you submit online can be vulnerable to unauthorized access or disclosure. By using our Service, you acknowledge and accept these inherent risks.</p>
+        </section>        
+
+        <section class="mb-6">
+          <h3 class="text-xl font-semibold mb-3 text-[#333333]">7. Your Rights</h3>
           <p class="mb-2">Depending on your location, you may have the following rights regarding your personal data:</p>
           <ul class="list-disc ml-6 mb-3 space-y-1">
             <li>Access to your personal data</li>
@@ -340,17 +347,17 @@
         </section>
 
         <section class="mb-6">
-          <h3 class="text-xl font-semibold mb-3 text-[#333333]">7. Children's Privacy</h3>
+          <h3 class="text-xl font-semibold mb-3 text-[#333333]">8. Children's Privacy</h3>
           <p class="mb-3">Our Service is not directed to children under 16. We do not knowingly collect personal information from children under 16. If we discover that a child under 16 has provided us with personal information, we will promptly delete it.</p>
         </section>
 
         <section class="mb-6">
-          <h3 class="text-xl font-semibold mb-3 text-[#333333]">8. Changes to This Privacy Policy</h3>
+          <h3 class="text-xl font-semibold mb-3 text-[#333333]">9. Changes to This Privacy Policy</h3>
           <p class="mb-3">We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
         </section>
 
         <section class="mb-2">
-          <h3 class="text-xl font-semibold mb-3 text-[#333333]">9. Contact Us</h3>
+          <h3 class="text-xl font-semibold mb-3 text-[#333333]">10. Contact Us</h3>
           <p>For any questions about this Privacy Policy, please contact us through our Contact form.</p>
         </section>
 

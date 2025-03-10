@@ -446,12 +446,12 @@
                     <div class="space-y-4">
                         <h3 class="text-lg font-semibold text-[#2E4057]">Terms of Service</h3>
                         <p class="text-sm text-gray-600 mb-2">Last updated: March 10, 2025</p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">1. Acceptance of Terms</h4>
                         <p>
                             By accessing or using the CraveSpin application ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you disagree with any part of these terms, you may not access the Service.
                         </p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">2. User Conduct</h4>
                         <p>
                             When using our Service, you agree to:
@@ -464,17 +464,17 @@
                             <li>Not impersonate others or provide false information</li>
                         </ul>
                         <p>We reserve the right to terminate access to users who violate these terms.</p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">3. Content Disclaimer</h4>
                         <p>
                             The Service is not intended to provide health-related information, financial advice, legal counsel, or professional services. Content is provided for entertainment and informational purposes only.
                         </p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">4. Communication</h4>
                         <p>
                             By submitting a form on our Service, you grant us permission to respond to your inquiry via the email you've provided. We may occasionally send service-related announcements but will not add you to marketing lists without explicit consent.
                         </p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">5. Intellectual Property</h4>
                         <p>
                             All content created by CraveSpin, including original text, graphics, logos, and code, is owned by CraveSpin and protected under applicable copyright and intellectual property laws.
@@ -485,12 +485,12 @@
                         <p>
                             You may not reproduce, distribute, or create derivative works of CraveSpin's original content without our express permission.
                         </p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">6. Limitation of Liability</h4>
                         <p>
                             To the maximum extent permitted by law, CraveSpin shall not be liable for any indirect, incidental, special, consequential or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses.
                         </p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">7. Changes to Terms</h4>
                         <p>
                             We reserve the right to modify these terms at any time. We will provide notice of significant changes by updating the date at the top of these terms and potentially providing additional notification.
@@ -498,15 +498,15 @@
                         <p>
                             Your continued use of the Service after such changes constitutes your acceptance of the new terms.
                         </p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">8. Contact Information</h4>
                         <p>
                             For questions about these Terms, please contact us through our Contact form.
                         </p>
-                        
+                
                         <h3 class="text-lg font-semibold text-[#2E4057] mt-8 pt-4 border-t border-gray-200">Privacy Policy</h3>
                         <p class="text-sm text-gray-600 mb-2">Last updated: March 10, 2025</p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">1. Information We Collect</h4>
                         <p>We collect the following personal information when you interact with our Service:</p>
                         <ul class="list-disc ml-6 space-y-1">
@@ -515,7 +515,7 @@
                             <li>Device and browser information (IP address, browser type, device type)</li>
                             <li>Usage data (pages visited, interaction patterns)</li>
                         </ul>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">2. How We Use Your Information</h4>
                         <p>We use your information for the following purposes:</p>
                         <ul class="list-disc ml-6 space-y-1">
@@ -526,7 +526,7 @@
                             <li>To comply with legal obligations</li>
                         </ul>
                         <p>Your email will only be used to respond to your message and will not be added to marketing lists without your explicit consent.</p>
-                        
+                
                         <h4 class="font-medium text-[#2E4057]">3. Third-Party Services</h4>
                         <p>
                             We use Formspree to process form submissions. By using our contact form, you acknowledge that your information will be transferred to Formspree for processing in accordance with their terms of service and privacy policy.
@@ -534,21 +534,29 @@
                         <p>
                             We use anonymous analytics tools to improve our Service. These tools collect information sent by your browser, including device information and interactions with our Service.
                         </p>
-                        
-                        <h4 class="font-medium text-[#2E4057]">4. Cookies and Tracking</h4>
+                
+                        <h4 class="font-medium text-[#2E4057]">4. Analytics and Cookies</h4>
                         <p>
                             Our Service uses essential cookies that are necessary for its proper functioning. We also use analytics cookies to understand how visitors interact with our website. These cookies collect information anonymously.
                         </p>
                         <p>
                             You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, some parts of our Service may not function properly.
                         </p>
-                        
-                        <h4 class="font-medium text-[#2E4057]">5. Data Retention</h4>
+                
+                        <h4 class="font-medium text-[#2E4057]">5. Data Security</h4>
+                        <p>
+                            We take reasonable precautions to protect your personal information from unauthorized access, use, or disclosure. This includes encryption, secure servers, and other industry-standard security measures. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee its absolute security.
+                        </p>
+                        <p>
+                            While we strive to protect your personal information, please be aware that any data you submit online can be vulnerable to unauthorized access or disclosure. By using our Service, you acknowledge and accept these inherent risks.
+                        </p>
+                
+                        <h4 class="font-medium text-[#2E4057]">6. Data Retention</h4>
                         <p>
                             We retain your personal information only for as long as necessary to fulfill the purposes outlined in this Privacy Policy, including responding to your inquiries and complying with legal obligations.
                         </p>
-                        
-                        <h4 class="font-medium text-[#2E4057]">6. Your Rights</h4>
+                
+                        <h4 class="font-medium text-[#2E4057]">7. Your Rights</h4>
                         <p>Depending on your location, you may have the following rights regarding your personal data:</p>
                         <ul class="list-disc ml-6 space-y-1">
                             <li>Access to your personal data</li>
@@ -559,23 +567,23 @@
                             <li>Objection to processing</li>
                         </ul>
                         <p>To exercise these rights, please contact us through our Contact form.</p>
-                        
-                        <h4 class="font-medium text-[#2E4057]">7. Children's Privacy</h4>
+                
+                        <h4 class="font-medium text-[#2E4057]">8. Children's Privacy</h4>
                         <p>
                             Our Service is not directed to children under 16. We do not knowingly collect personal information from children under 16. If we discover that a child under 16 has provided us with personal information, we will promptly delete it.
                         </p>
-                        
-                        <h4 class="font-medium text-[#2E4057]">8. Changes to This Privacy Policy</h4>
+                
+                        <h4 class="font-medium text-[#2E4057]">9. Changes to This Privacy Policy</h4>
                         <p>
                             We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
                         </p>
-                        
-                        <h4 class="font-medium text-[#2E4057]">9. Contact Us</h4>
+                
+                        <h4 class="font-medium text-[#2E4057]">10. Contact Us</h4>
                         <p>
                             For any questions about this Privacy Policy, please contact us through our Contact form.
                         </p>
                     </div>
-                    
+                
                     <div class="mt-6 pt-6 border-t border-[#F2F2F2] text-center text-sm text-[#2E4057]">
                         <p>
                             By submitting this form, you acknowledge that you have read and agree to our Terms of Service and Privacy Policy as outlined above.
