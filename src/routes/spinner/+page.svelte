@@ -286,20 +286,20 @@
       </p>
     {:else}
       <p class="text-lg text-[#2E4057] leading-relaxed">
-        Loading your food suggestions...
+        Loading suggestions...
       </p>
     {/if}
 
     <h2 class="text-xl font-bold text-[#F67280] mt-6 mb-4">
       {#if isRandomSuggestions}
-        Random Food Suggestions
+        Random Suggestions
       {:else}
-        Recommended Foods
+        Recommended
       {/if}
     </h2>
 
     {#if isLoading}
-      <p class="text-lg text-[#2E4057]">Finding the best food options for you...</p>
+      <p class="text-lg text-[#2E4057]">Finding the best options for you...</p>
     {:else if foodSuggestions.length > 0}
       <div class="roulette-wrapper">
         <div class="roulette-container">
@@ -340,7 +340,7 @@
               
       </div>
     {:else}
-      <p class="mt-4 text-lg text-[#F67280]">No food suggestions found. Try clicking "Surprise Me!"</p>
+      <p class="mt-4 text-lg text-[#F67280]">No suggestions found. Try clicking "Surprise Me!"</p>
       <button 
         on:click={handleSurprise} 
         class="mt-4 px-6 py-3 text-lg font-bold bg-[#6C5B7B] text-white rounded-lg hover:bg-[#5D4C6C] transition-all">
