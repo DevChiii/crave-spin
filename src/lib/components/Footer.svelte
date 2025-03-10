@@ -315,10 +315,10 @@
 
         <section class="mb-6">
           <h3 class="text-xl font-semibold mb-3 text-[#333333]">4. Cookies and Tracking</h3>
-          <p class="mb-3">Our Service uses essential cookies that are necessary for its proper functioning. We also use analytics cookies to understand how visitors interact with our website. These cookies collect information anonymously.</p>
+          <p class="mb-3">Our Service uses essential cookies that are necessary for its proper functioning. We also use third-party analytics cookies (such as Google Analytics) to understand how visitors interact with our website. These cookies collect information anonymously, including but not limited to your IP address, browser type, device type, and pages visited.</p>
           
-          <p class="mb-3">You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, some parts of our Service may not function properly.</p>
-        </section>
+          <p class="mb-3">By using our Service, you consent to the use of cookies for these purposes. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, some parts of our Service may not function properly, and you may not be able to use all of its features.</p>
+        </section>        
 
         <section class="mb-6">
           <h3 class="text-xl font-semibold mb-3 text-[#333333]">5. Data Retention</h3>
