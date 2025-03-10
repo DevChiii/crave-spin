@@ -498,8 +498,11 @@
                         <p>
                             Your continued use of the Service after such changes constitutes your acceptance of the new terms.
                         </p>
+
+                        <h4 class="font-medium text-[#2E4057]">8. Governing Law</h4>
+                        <p>These Terms of Service are governed by the laws of New Zealand. Any disputes arising from or related to these Terms will be resolved under the jurisdiction of the courts in New Zealand.</p>
                 
-                        <h4 class="font-medium text-[#2E4057]">8. Contact Information</h4>
+                        <h4 class="font-medium text-[#2E4057]">9. Contact Information</h4>
                         <p>
                             For questions about these Terms, please contact us through our Contact form.
                         </p>
@@ -577,8 +580,11 @@
                         <p>
                             We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
                         </p>
+
+                        <h4 class="font-medium text-[#2E4057]">10. Governing Law</h4>
+                        <p>These Privacy Policy terms are governed by the laws of New Zealand. Any disputes arising from or related to this Privacy Policy will be resolved under the jurisdiction of the courts in New Zealand.</p>
                 
-                        <h4 class="font-medium text-[#2E4057]">10. Contact Us</h4>
+                        <h4 class="font-medium text-[#2E4057]">11. Contact Us</h4>
                         <p>
                             For any questions about this Privacy Policy, please contact us through our Contact form.
                         </p>

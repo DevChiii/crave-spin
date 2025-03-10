@@ -229,6 +229,11 @@
           <p class="mb-3">Your continued use of the Service after such changes constitutes your acceptance of the new terms.</p>
         </section>
 
+        <section class="mb-6">
+          <h3 class="text-xl font-semibold mb-3 text-[#333333]">11. Governing Law</h3>
+          <p class="mb-3">These Terms of Service and Privacy Policy are governed by and construed in accordance with the laws of New Zealand. Any disputes arising out of or in connection with these terms shall be subject to the exclusive jurisdiction of the courts located in New Zealand.</p>
+        </section>        
+
         <section class="mb-2">
           <h3 class="text-xl font-semibold mb-3 text-[#333333]">8. Contact Information</h3>
           <p>For questions about these Terms, please contact us through our Contact form.</p>
@@ -356,8 +361,13 @@
           <p class="mb-3">We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
         </section>
 
+        <section class="mb-6">
+          <h3 class="text-xl font-semibold mb-3 text-[#333333]">9. Governing Law</h3>
+          <p class="mb-3">Any disputes regarding your personal information and this Privacy Policy will be governed by the laws of New Zealand, as outlined in our <a href="/terms-of-service" class="text-[#FF6347] hover:underline">Terms of Service</a>.</p>
+        </section>
+
         <section class="mb-2">
-          <h3 class="text-xl font-semibold mb-3 text-[#333333]">10. Contact Us</h3>
+          <h3 class="text-xl font-semibold mb-3 text-[#333333]">11. Contact Us</h3>
           <p>For any questions about this Privacy Policy, please contact us through our Contact form.</p>
         </section>
 
