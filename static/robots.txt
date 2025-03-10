@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://crave-spin-u63q.vercel.app/sitemap.xml
