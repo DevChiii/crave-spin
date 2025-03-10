@@ -103,6 +103,7 @@
     }
   }
 
+  // @ts-ignore
   function getRandomFoodSuggestionsToFill(count) {
     fetch('/data/foodDatabase.json')
       .then((response) => {
@@ -216,6 +217,7 @@
   }
 
   // Replace the old getRandomFoodSuggestions function with this enhanced version
+  // @ts-ignore
   function getRandomFoodSuggestions() {
     getEnhancedRandomFoodSuggestions();
   }
@@ -326,7 +328,7 @@
           <button 
             on:click={() => { spinWheel(); resetBlur(); }} 
             class="flex-1 px-6 py-3 text-lg font-bold bg-[#F67280] text-white rounded-lg hover:bg-[#E56270] transition-all min-w-0 sm:max-w-xs">
-            🎰 Spin the Wheel
+            🎰 Spin It!
           </button>
           
           <button 
