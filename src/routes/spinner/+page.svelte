@@ -282,7 +282,7 @@
       </p>
     {:else if isRandomSuggestions}
       <p class="text-lg text-[#2E4057] leading-relaxed">
-        Showing <strong class="text-[#F67280]">random suggestions</strong>{#if !$userData.mood || !$userData.weather} since you haven't set your preferences yet{/if}.
+        Showing <strong class="text-[#F67280]">random suggestions </strong>{#if !$userData.mood || !$userData.weather} since you haven't set your preferences yet{/if}.
       </p>
     {:else}
       <p class="text-lg text-[#2E4057] leading-relaxed">
