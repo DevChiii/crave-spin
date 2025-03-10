@@ -28,64 +28,72 @@
 
       // Validate and sanitize food data before using it
       if (Array.isArray(foodDatabase.foods)) {
-        // Check for combination matches first (foods that match specific mood+weather combinations)
-        // This assumes your food data has a combinationMatches array or similar structure
-        // @ts-ignore
-        let combinationMatches = foodDatabase.foods.filter((food) => {
-          if (!food.combinationMatches) return false;
-          
-          // Check if this food has a match for current mood+weather combination
+        // Check if we have both mood and weather preferences
+        if ($userData.mood && $userData.weather) {
+          // Check for combination matches first (foods that match specific mood+weather combinations)
           // @ts-ignore
-          return food.combinationMatches.some(combo => 
-            combo.mood === $userData.mood && combo.weather === $userData.weather
-          );
-        });
-        
-        // If we have enough combination matches, use those
-        if (combinationMatches.length >= minimumFoodItems) {
-          foodSuggestions = combinationMatches.slice(0, minimumFoodItems);
-        } 
-        // Otherwise, try to find foods that match both mood AND weather separately
-        else {
-          // @ts-ignore
-          let exactMatches = foodDatabase.foods.filter((food) =>
-            food.moods?.includes($userData.mood) && food.weather?.includes($userData.weather)
-          );
-          
-          // If we still don't have enough, add foods that match at least one criteria
-          if ((combinationMatches.length + exactMatches.length) < minimumFoodItems) {
+          let combinationMatches = foodDatabase.foods.filter((food) => {
+            if (!food.combinationMatches) return false;
+            
+            // Check if this food has a match for current mood+weather combination
             // @ts-ignore
-            let partialMatches = foodDatabase.foods.filter((food) =>
-              food.moods?.includes($userData.mood) || food.weather?.includes($userData.weather)
+            return food.combinationMatches.some(combo => 
+              combo.mood === $userData.mood && combo.weather === $userData.weather
+            );
+          });
+          
+          // If we have enough combination matches, use those
+          if (combinationMatches.length >= minimumFoodItems) {
+            foodSuggestions = combinationMatches.slice(0, minimumFoodItems);
+          } 
+          // Otherwise, try to find foods that match both mood AND weather separately
+          else {
+            // @ts-ignore
+            let exactMatches = foodDatabase.foods.filter((food) =>
+              food.moods?.includes($userData.mood) && food.weather?.includes($userData.weather)
             );
             
-            // Remove duplicates (foods already in combinationMatches or exactMatches)
-            const existingNames = [...combinationMatches, ...exactMatches].map(food => food.name);
-            partialMatches = partialMatches.filter(
+            // If we still don't have enough, add foods that match at least one criteria
+            if ((combinationMatches.length + exactMatches.length) < minimumFoodItems) {
               // @ts-ignore
-              (item) => !existingNames.includes(item.name)
-            );
-            
-            // Combine all matches, prioritizing combination matches first, then exact matches, then partial
-            foodSuggestions = [
-              ...combinationMatches, 
-              ...exactMatches, 
-              ...partialMatches
-            ].slice(0, minimumFoodItems);
-          } else {
-            // Just combinationMatches + exactMatches is enough
-            foodSuggestions = [...combinationMatches, ...exactMatches].slice(0, minimumFoodItems);
+              let partialMatches = foodDatabase.foods.filter((food) =>
+                food.moods?.includes($userData.mood) || food.weather?.includes($userData.weather)
+              );
+              
+              // Remove duplicates (foods already in combinationMatches or exactMatches)
+              const existingNames = [...combinationMatches, ...exactMatches].map(food => food.name);
+              partialMatches = partialMatches.filter(
+                // @ts-ignore
+                (item) => !existingNames.includes(item.name)
+              );
+              
+              // Combine all matches, prioritizing combination matches first, then exact matches, then partial
+              foodSuggestions = [
+                ...combinationMatches, 
+                ...exactMatches, 
+                ...partialMatches
+              ].slice(0, minimumFoodItems);
+            } else {
+              // Just combinationMatches + exactMatches is enough
+              foodSuggestions = [...combinationMatches, ...exactMatches].slice(0, minimumFoodItems);
+            }
           }
+          // Reset the random suggestions flag when fetching based on preferences
+          isRandomSuggestions = false;
+        } else {
+          // If user preferences aren't set, use random suggestions
+          getEnhancedRandomFoodSuggestions();
+          return; // Early return since getEnhancedRandomFoodSuggestions handles setting isLoading to false
         }
       } else {
         console.warn('Invalid food data format');
         getEnhancedRandomFoodSuggestions(); // Fallback to random suggestions if data format is invalid
+        return;
       }
-      // Reset the random suggestions flag when fetching based on preferences
-      isRandomSuggestions = false;
     } catch (error) {
       console.error("Error fetching food data:", error);
       getEnhancedRandomFoodSuggestions(); // Fallback to random suggestions on error
+      return;
     } finally {
       isLoading = false;
       if (foodSuggestions.length < minimumFoodItems) {
@@ -95,7 +103,6 @@
     }
   }
 
-  // @ts-ignore
   function getRandomFoodSuggestionsToFill(count) {
     fetch('/data/foodDatabase.json')
       .then((response) => {
@@ -133,6 +140,8 @@
   }
 
   function getEnhancedRandomFoodSuggestions() {
+    isLoading = true; // Set loading state while fetching
+    
     fetch('/data/foodDatabase.json')
       .then((response) => {
         if (!response.ok) {
@@ -200,11 +209,13 @@
         }));
         // Set the random suggestions flag to true
         isRandomSuggestions = true;
+      })
+      .finally(() => {
+        isLoading = false; // End loading state regardless of success/failure
       });
   }
 
   // Replace the old getRandomFoodSuggestions function with this enhanced version
-  // @ts-ignore
   function getRandomFoodSuggestions() {
     getEnhancedRandomFoodSuggestions();
   }
@@ -251,19 +262,9 @@
     resetBlur();
   }
 
-  // Add reactive statement to update food suggestions when user preferences change
-  // @ts-ignore
-  $: if ($userData.mood && $userData.weather) {
-    fetchFoodData();
-  }
-
+  // Initialize the page with data
   onMount(() => {
-    if ($userData.mood && $userData.weather) {
-      fetchFoodData();
-    } else {
-      // If no user preferences are set yet, show random suggestions
-      getEnhancedRandomFoodSuggestions();
-    }
+    fetchFoodData(); // Always call fetchFoodData which will handle both preference-based and random suggestions
   });
 </script>
 
@@ -272,14 +273,18 @@
     
     <h1 class="text-2xl font-extrabold text-[#2E4057] mb-4">Your Preferences</h1>
 
-    {#if $userData.mood && !isRandomSuggestions}
+    {#if $userData.mood && $userData.weather && !isRandomSuggestions}
       <p class="text-lg text-[#2E4057] leading-relaxed">
-        You are currently in <strong>{$userData.place}</strong> with <strong>{$userData.weather}</strong> weather,  
+        You are currently in <strong>{$userData.place || 'Unknown Location'}</strong> with <strong>{$userData.weather}</strong> weather,  
         feeling <strong class="text-[#F67280]">{$userData.mood}</strong>.
       </p>
     {:else if isRandomSuggestions}
       <p class="text-lg text-[#2E4057] leading-relaxed">
-        Showing <strong class="text-[#F67280]">random suggestions</strong> regardless of your preferences.
+        Showing <strong class="text-[#F67280]">random suggestions</strong>{#if !$userData.mood || !$userData.weather} since you haven't set your preferences yet{/if}.
+      </p>
+    {:else}
+      <p class="text-lg text-[#2E4057] leading-relaxed">
+        Loading your food suggestions...
       </p>
     {/if}
 
@@ -333,7 +338,12 @@
               
       </div>
     {:else}
-      <p class="mt-4 text-lg text-[#F67280]">No food matches your preferences. Try shuffling!</p>
+      <p class="mt-4 text-lg text-[#F67280]">No food suggestions found. Try clicking "Surprise Me!"</p>
+      <button 
+        on:click={handleSurprise} 
+        class="mt-4 px-6 py-3 text-lg font-bold bg-[#6C5B7B] text-white rounded-lg hover:bg-[#5D4C6C] transition-all">
+        🔀 Surprise Me!
+      </button>
     {/if}
     
     {#if isRandomSuggestions}
