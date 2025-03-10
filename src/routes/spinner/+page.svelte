@@ -294,7 +294,7 @@
       {#if isRandomSuggestions}
         Random Suggestions
       {:else}
-        Recommended
+        Spin to Satisfy Your Craving!
       {/if}
     </h2>
 
