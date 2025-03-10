@@ -153,6 +153,7 @@
 <!-- Terms of Service Modal -->
 {#if showTosModal}
   <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <!-- svelte-ignore a11y_interactive_supports_focus -->
   <div 
     class="fixed inset-0 z-50 overflow-hidden bg-black bg-opacity-50 flex items-center justify-center modal-overlay"
     on:click={handleClickOutside}
@@ -251,6 +252,7 @@
 <!-- Privacy Policy Modal -->
 {#if showPrivacyModal}
   <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <!-- svelte-ignore a11y_interactive_supports_focus -->
   <div 
     class="fixed inset-0 z-50 overflow-hidden bg-black bg-opacity-50 flex items-center justify-center modal-overlay"
     on:click={handleClickOutside}
