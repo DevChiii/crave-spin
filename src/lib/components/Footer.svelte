@@ -92,20 +92,10 @@
   // Add event listeners
   window.addEventListener('keydown', handleKeydown);
   
-  // Create and load the DMCA script
-  const dmcaScript = document.createElement('script');
-  dmcaScript.src = 'https://images.dmca.com/Badges/DMCABadgeHelper.min.js';
-  document.body.appendChild(dmcaScript);
-  
   return () => {
     // Clean up event listeners
     window.removeEventListener('keydown', handleKeydown);
     document.body.classList.remove('overflow-hidden');
-    
-    // Optionally remove the script on component unmount
-    if (dmcaScript && dmcaScript.parentNode) {
-      dmcaScript.parentNode.removeChild(dmcaScript);
-    }
   };
 });
 </script>
@@ -150,6 +140,7 @@
       <a href="https://www.dmca.com/Protection/Status.aspx?ID=f70f38c5-a29a-4833-93c3-cfdfead2a113" title="DMCA.com Protection Status">
         <img src="https://images.dmca.com/Badges/dmca_protected_25_120.png?ID=f70f38c5-a29a-4833-93c3-cfdfead2a113" alt="DMCA.com Protection Status" />
       </a>
+      <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
     </div>
     
     <!-- Copyright -->
