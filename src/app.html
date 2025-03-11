@@ -21,18 +21,18 @@
 		<meta property="og:type" content="website" />
 		<meta property="og:image" content="https://crave-spin-u63q.vercel.app/img/og-image.png" />
 
-		<!-- Twitter Card -->
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content="CraveSpin - Fun Food Roulette for Your Cravings" />
-		<meta name="twitter:description" content="Let CraveSpin pick your next meal with a fun roulette spin!" />
-		<meta name="twitter:image" content="https://crave-spin-u63q.vercel.app/img/og-image.png" />
-
 		<!-- Preconnect for Faster Resource Loading -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 		<!-- Security: Content Security Policy (CSP) -->
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://vercel-analytics.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+		<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self'; 
+  script-src 'self' 'unsafe-inline' https://vercel-analytics.com https://images.dmca.com https://va.vercel-scripts.com;
+  img-src 'self' data: https:;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com;">
+
 
 		%sveltekit.head%
 	</head>
