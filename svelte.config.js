@@ -2,8 +2,14 @@ import adapter from '@sveltejs/adapter-vercel';
 
 export default {
   kit: {
-    // Use the Vercel adapter
-    adapter: adapter()
+    adapter: adapter(),
+    // Enable SSR (Server-Side Rendering)
+    prerender: {
+      entries: ['*'], // Pre-renders all static pages
+    },
+    csrf: {
+      checkOrigin: false // Fixes CSRF issues on Vercel if needed
+    }
   }
 };
 
